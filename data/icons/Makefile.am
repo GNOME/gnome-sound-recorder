@@ -1,16 +1,16 @@
 icondir = $(datadir)/icons/
 
 nobase_icon_DATA = \
-	hicolor/16x16/apps/gnome-sound-recorder.png \
-	hicolor/22x22/apps/gnome-sound-recorder.png \
-	hicolor/24x24/apps/gnome-sound-recorder.png \
-	hicolor/32x32/apps/gnome-sound-recorder.png \
-	hicolor/48x48/apps/gnome-sound-recorder.png \
-	hicolor/256x256/apps/gnome-sound-recorder.png \
-	hicolor/symbolic/apps/gnome-sound-recorder-symbolic.svg
+	hicolor/16x16/apps/org.gnome.SoundRecorder.png \
+	hicolor/22x22/apps/org.gnome.SoundRecorder.png \
+	hicolor/24x24/apps/org.gnome.SoundRecorder.png \
+	hicolor/32x32/apps/org.gnome.SoundRecorder.png \
+	hicolor/48x48/apps/org.gnome.SoundRecorder.png \
+	hicolor/256x256/apps/org.gnome.SoundRecorder.png \
+	hicolor/symbolic/apps/org.gnome.SoundRecorder-symbolic.svg
 
 EXTRA_DIST = $(nobase_icon_DATA) \
-	hicolor/gnome-sound-recorder.svg \
+	hicolor/org.gnome.SoundRecorder.svg \
 	.gitignore
 
 gtk_update_icon_cache = gtk-update-icon-cache -f $(datadir)/icons/hicolor
