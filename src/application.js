@@ -34,7 +34,7 @@ let application = null;
 let settings = null;
 
 
-const Application = new Lang.Class({
+var Application = new Lang.Class({
     Name: 'Application',
     Extends: Gtk.Application,
 
@@ -81,7 +81,7 @@ const Application = new Lang.Class({
 
         Util.loadStyleSheet();
         log(_("Sound Recorder started"));
-        Gst.init(null, 0);
+        Gst.init(null);
         this._initAppMenu();
         application = this;
         settings = new Gio.Settings({ schema: 'org.gnome.gnome-sound-recorder' });
