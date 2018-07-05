@@ -17,21 +17,19 @@
 *
 */
 
-const Gio = imports.gi.Gio;
-const GLib = imports.gi.GLib;
-const Gst = imports.gi.Gst;
-const Gtk = imports.gi.Gtk;
-const Lang = imports.lang;
+var Gio = imports.gi.Gio;
+var GLib = imports.gi.GLib;
+var Gst = imports.gi.Gst;
+var Gtk = imports.gi.Gtk;
+var Lang = imports.lang;
 
-const MainWindow = imports.mainWindow;
-const Preferences = imports.preferences;
-const Util = imports.util;
+var MainWindow = imports.mainWindow;
+var Preferences = imports.preferences;
+var Util = imports.util;
 
-const SIGINT = 2;
-const SIGTERM = 15;
-
-let application = null;
-let settings = null;
+var SIGINT = 2;
+var SIGTERM = 15;
+var application = null;var settings = null;
 
 
 var Application = new Lang.Class({

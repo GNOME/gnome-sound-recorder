@@ -62,7 +62,7 @@ let startRecording = false;
 let stopVal = null;
 var trackNumber = 0;
 
-const Listview = new Lang.Class({
+var Listview = new Lang.Class({
     Name: "Listview",
 
     _init: function() {

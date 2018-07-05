@@ -25,29 +25,29 @@ const GstAudio = imports.gi.GstAudio;
 const GstPbutils = imports.gi.GstPbutils;
 const Gtk = imports.gi.Gtk;
 const Lang = imports.lang;
-const Mainloop = imports.mainloop;
+var Mainloop = imports.mainloop;
 
-const Application = imports.application;
-const MainWindow = imports.mainWindow;
-const Waveform = imports.waveform;
+var Application = imports.application;
+var MainWindow = imports.mainWindow;
+var Waveform = imports.waveform;
 
-const PipelineStates = {
+var PipelineStates = {
     PLAYING: 0,
     PAUSED: 1,
     STOPPED: 2,
     NULL: 3
 };
 
-const ErrState = {
+var ErrState = {
     OFF: 0,
     ON: 1
 }
 
 let errorDialogState;
 
-const _TENTH_SEC = 100000000;
+var _TENTH_SEC = 100000000;
 
-const Play = new Lang.Class({
+var Play = new Lang.Class({
     Name: "Play",
 
     _playPipeline: function() {

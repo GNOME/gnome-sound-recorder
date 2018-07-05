@@ -17,25 +17,25 @@
  *
  */
 
-const Gettext = imports.gettext;
-const _ = imports.gettext.gettext;
-const Gio = imports.gi.Gio;
-const GLib = imports.gi.GLib;
-const GObject = imports.gi.GObject;
-const Gst = imports.gi.Gst;
-const GstPbutils = imports.gi.GstPbutils;
-const Lang = imports.lang;
-const Signals = imports.signals;
+var Gettext = imports.gettext;
+var _ = imports.gettext.gettext;
+var Gio = imports.gi.Gio;
+var GLib = imports.gi.GLib;
+var GObject = imports.gi.GObject;
+var Gst = imports.gi.Gst;
+var GstPbutils = imports.gi.GstPbutils;
+var Lang = imports.lang;
+var Signals = imports.signals;
 
-const Listview = imports.listview;
-const MainWindow = imports.mainWindow;
-const Record = imports.record;
+var Listview = imports.listview;
+var MainWindow = imports.mainWindow;
+var Record = imports.record;
 
-const _OFFSET_STEP = 20;
+var _OFFSET_STEP = 20;
 let CurrentEndIdx;
 let totItems;
 
-const OffsetController = new Lang.Class({
+var OffsetController = new Lang.Class({
     Name: 'OffsetController',
 
     _init: function(context) {
@@ -69,7 +69,7 @@ const OffsetController = new Lang.Class({
     }
 });
 
-const DisplayTime = new Lang.Class({
+var DisplayTime = new Lang.Class({
     Name: 'DisplayTime',
 
     getDisplayTime: function(mtime) {

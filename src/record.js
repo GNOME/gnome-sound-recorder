@@ -55,7 +55,7 @@ const _TENTH_SEC = 100000000;
 
 let errorDialogState;
 
-const Record = new Lang.Class({
+var Record = new Lang.Class({
     Name: "Record",
 
     _recordPipeline: function() {
