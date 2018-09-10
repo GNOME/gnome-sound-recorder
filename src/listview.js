@@ -111,7 +111,10 @@ const Listview = new Lang.Class({
                                     if (returnedNumber > trackNumber)
                                         trackNumber = returnedNumber;
 
-                                }  catch (e if e instanceof TypeError) {
+                                }  catch (e) {
+                                    if (!e instanceof TypeError)
+                                        throw e;
+
                                     log("Tracknumber not returned");
                                     // Don't handle the error
                                 }
