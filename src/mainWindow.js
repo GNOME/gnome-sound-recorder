@@ -111,7 +111,7 @@ const MainWindow = new Lang.Class({
         header.get_style_context().add_class('titlebar');
 
         recordButton = new RecordButton({ label: _("Record") });
-        recordButton.get_style_context().add_class('destructive-action');
+        recordButton.get_style_context().add_class('suggested-action');
         header.pack_start(recordButton);
 
         this.add(view);
