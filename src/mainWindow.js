@@ -52,6 +52,7 @@ let play = null;
 let previousSelRow = null;
 let recordPipeline = null;
 let recordButton = null;
+let appMenuButton = null;
 let selectable = null;
 let setVisibleID = null;
 let UpperBoundVal = 182;
@@ -114,8 +115,23 @@ const MainWindow = new Lang.Class({
         recordButton.get_style_context().add_class('destructive-action');
         header.pack_start(recordButton);
 
+        this._addAppMenu();
+
         this.add(view);
         this.show_all();
+    },
+
+    _addAppMenu: function() {
+        let menu = new Gio.Menu();
+        menu.append(_("Preferences"), 'app.preferences');
+        menu.append(_("About"), 'app.about');
+        menu.append(_("Quit"),'app.quit');
+
+        appMenuButton = new Gtk.MenuButton({
+          image: new Gtk.Image({ icon_name: 'open-menu-symbolic' }),
+          menu_model: menu
+        });
+        header.pack_end(appMenuButton);
     }
 });
 

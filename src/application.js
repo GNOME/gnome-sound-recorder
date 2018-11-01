@@ -44,15 +44,6 @@ const Application = new Lang.Class({
     },
 
     _initAppMenu: function() {
-        let menu = new Gio.Menu();
-        let section = new Gio.Menu();
-        menu.append_section(null, section);
-        section.append(_("Preferences"), 'app.preferences');
-        section = new Gio.Menu();
-        menu.append_section(null, section);
-        section.append(_("About"), 'app.about');
-        section.append(_("Quit"),'app.quit');
-        this.set_app_menu(menu);
         let preferences = new Gio.SimpleAction({ name: 'preferences' });
         preferences.connect('activate', Lang.bind(this,
             function() {
