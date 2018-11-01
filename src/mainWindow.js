@@ -125,7 +125,6 @@ const MainWindow = new Lang.Class({
         let menu = new Gio.Menu();
         menu.append(_("Preferences"), 'app.preferences');
         menu.append(_("About Sound Recorder"), 'app.about');
-        menu.append(_("Quit"),'app.quit');
 
         appMenuButton = new Gtk.MenuButton({
           image: new Gtk.Image({ icon_name: 'open-menu-symbolic' }),
