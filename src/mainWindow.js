@@ -124,7 +124,7 @@ const MainWindow = new Lang.Class({
     _addAppMenu: function() {
         let menu = new Gio.Menu();
         menu.append(_("Preferences"), 'app.preferences');
-        menu.append(_("About"), 'app.about');
+        menu.append(_("About Sound Recorder"), 'app.about');
         menu.append(_("Quit"),'app.quit');
 
         appMenuButton = new Gtk.MenuButton({
