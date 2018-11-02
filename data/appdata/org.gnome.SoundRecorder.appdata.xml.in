@@ -2,23 +2,23 @@
 <!-- Copyright 2014 Richard Hughes <richard@hughsie.com> -->
 <component type="desktop">
   <id>org.gnome.SoundRecorder.desktop</id>
-  <_name>Sound Recorder</_name>
-  <_summary>A simple, modern sound recorder for GNOME</_summary>
+  <name>Sound Recorder</name>
+  <summary>A simple, modern sound recorder for GNOME</summary>
   <project_license>GPL-2.0+</project_license>
   <metadata_license>CC0-1.0</metadata_license>
   <description>
-    <_p>
+    <p>
       Sound Recorder provides a simple and modern interface that provides a
       straight-forward way to record and play audio.
       It allows you to do basic editing, and create voice memos.
-    </_p>
-    <_p>
+    </p>
+    <p>
       Sound Recorder automatically handles the saving process so that you
       do not need to worry about accidentally discarding the previous recording.
-    </_p>
-    <_p>Supported audio formats:</_p>
+    </p>
+    <p>Supported audio formats:</p>
     <ul>
-      <_li>Ogg Vorbis, Opus, FLAC, MP3 and MOV</_li>
+      <li>Ogg Vorbis, Opus, FLAC, MP3 and MOV</li>
     </ul>
   </description>
   <screenshots>
