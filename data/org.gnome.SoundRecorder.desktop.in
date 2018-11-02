@@ -1,10 +1,10 @@
 [Desktop Entry]
 Type=Application
-_Name=Sound Recorder
-_Comment=Record sound via the microphone and play it back
+Name=Sound Recorder
+Comment=Record sound via the microphone and play it back
 Icon=org.gnome.SoundRecorder
 Categories=GNOME;GTK;Audio;AudioVideo;
-_Keywords=Audio;Application;Record;
+Keywords=Audio;Application;Record;
 Exec=gnome-sound-recorder
 StartupNotify=true
 
