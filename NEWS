@@ -1,3 +1,15 @@
+ 3.30.0
+ ======= 
+ Remove usage of conditional catch statements by Tim Lunn
+ Rename icon to match application id by Alexander Mikhaylenko
+ Add Flatpak manifest by Alexander Mikhaylenko
+ Rename icon on desktop file to match application id by Felipe Borges
+ Drop AppMenu by Felipe Borges
+ Rename "About" to "About Sound Recorder" by Felipe Borges
+ Drop "quit" entry from hamburger menu by Felipe Borges
+ Use "var" instead of "let" or "const" by Christopher Davis
+ Translation updates
+
  3.28.1
  =======
  Translation updates
