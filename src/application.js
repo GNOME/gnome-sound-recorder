@@ -140,9 +140,15 @@ var Application = GObject.registerClass(class Application extends Gtk.Applicatio
     }
 
     _loadStyleSheet: function() {
+<<<<<<< HEAD
         var resource = 'resource:///org/gnome/SoundRecorder/Application/application.css';
         var provider = new Gtk.CssProvider();
         provider.load_from_resource(resource);
+=======
+        var resource_uri = 'resource:///org/gnome/SoundRecorder/Application/application.css';
+        var provider = new Gtk.CssProvider();
+        provider.load_from_resource(resource_uri);
+>>>>>>> meson: don't add sources files as a dependency to the gresource
         Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),
                                                  provider,
                                                  Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
@@ -160,7 +166,7 @@ var Application = GObject.registerClass(class Application extends Gtk.Applicatio
         aboutDialog.program_name = _("Sound Recorder");
         aboutDialog.copyright = 'Copyright ' + String.fromCharCode(0x00A9) + ' 2013' + String.fromCharCode(0x2013) + 'Meg Ford';
         aboutDialog.license_type = Gtk.License.GPL_2_0;
-        aboutDialog.logo_icon_name = 'org.gnome.SoundRecorder';
+        aboutDialog.logo_icon_name = pkg.name;
         aboutDialog.version = pkg.version;
         aboutDialog.website = 'https://wiki.gnome.org/Apps/SoundRecorder';
         aboutDialog.wrap_license = true;
