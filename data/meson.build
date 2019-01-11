@@ -1,11 +1,8 @@
-foreach icon_size: ['16x16', '22x22', '24x24', '32x32', '48x48', '256x256']
-  icon_dir = join_paths('icons', 'hicolor', icon_size, 'apps')
-
-  install_data(
-    join_paths(icon_dir, '@0@.png'.format(application_id)),
-    install_dir: join_paths(sound_recorder_datadir, icon_dir)
-  )
-endforeach
+icon_dir = join_paths('icons', 'hicolor', 'scalable', 'apps')
+install_data(
+  join_paths(icon_dir, '@0@.svg'.format(application_id)),
+  install_dir: join_paths(sound_recorder_datadir, icon_dir)
+)
 
 icon_dir = join_paths('icons', 'hicolor', 'symbolic', 'apps')
 install_data(
