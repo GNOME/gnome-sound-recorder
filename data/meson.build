@@ -13,7 +13,7 @@ install_data(
   install_dir: join_paths(sound_recorder_datadir, icon_dir)
 )
 
-i18n.merge_file(
+desktop_file = i18n.merge_file(
   'desktop',
   input: '@0@.desktop.in'.format(application_id),
   output: '@0@.desktop'.format(application_id),
@@ -22,6 +22,16 @@ i18n.merge_file(
   po_dir: po_dir,
   type: 'desktop'
 )
+desktop_file_validate = find_program('desktop-file-validate', required: false)
+if desktop_file_validate.found()
+  test(
+    'validate-desktop',
+    desktop_file_validate,
+    args: [
+      desktop_file.full_path()
+    ]
+  )
+endif
 
 gsettings_conf = configuration_data()
 gsettings_conf.set('GETTEXT_PACKAGE', meson.project_name ())
