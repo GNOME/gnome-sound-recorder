@@ -1,5 +1,5 @@
 #!@GJS@
-imports.package.init({ name: "gnome-sound-recorder",
+imports.package.init({ name: "@APPLICATON_ID@",
                         version: "@PACKAGE_VERSION@",
                         prefix: "@prefix@",
                         libdir: "@libdir@" });
