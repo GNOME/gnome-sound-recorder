@@ -1,17 +1,3 @@
-sound_recorder_sources = files(
-  'application.js',
-  'audioProfile.js',
-  'fileUtil.js',
-  'info.js',
-  'listview.js',
-  'main.js',
-  'mainWindow.js',
-  'play.js',
-  'preferences.js',
-  'record.js',
-  'waveform.js',
-)
-
 app_conf = configuration_data()
 app_conf.set('prefix', sound_recorder_prefix)
 app_conf.set('libdir', sound_recorder_libdir)
@@ -31,7 +17,6 @@ gnome.compile_resources(
   application_id + '.src',
   'org.gnome.SoundRecorder.src.gresource.xml',
   source_dir: '.',
-  dependencies: sound_recorder_sources,
   gresource_bundle: true,
   install: true,
   install_dir: sound_recoder_pkgdatadir
