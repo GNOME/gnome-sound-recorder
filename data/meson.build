@@ -33,9 +33,13 @@ configure_file(
   install_dir: sound_recorder_schemadir
 )
 
-install_data(
-  'application.css',
-  install_dir: sound_recoder_pkgdatadir
+gnome.compile_resources(
+  application_id + '.data',
+  application_id + '.data.gresource.xml',
+  gresource_bundle: true,
+  source_dir: '.',
+  install_dir: sound_recoder_pkgdatadir,
+  install: true
 )
 
 subdir('appdata')

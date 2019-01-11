@@ -10,7 +10,6 @@ sound_recorder_sources = files(
   'play.js',
   'preferences.js',
   'record.js',
-  'util.js',
   'waveform.js',
 )
 
@@ -19,6 +18,7 @@ app_conf.set('prefix', sound_recorder_prefix)
 app_conf.set('libdir', sound_recorder_libdir)
 app_conf.set('PACKAGE_VERSION', meson.project_version())
 app_conf.set('GJS', gjs_console)
+app_conf.set('APPLICATION_ID', application_id)
 
 configure_file(
   input: 'org.gnome.SoundRecorder.in',

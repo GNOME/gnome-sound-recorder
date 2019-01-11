@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/gnome/SoundRecorder/Application">
+    <file>application.css</file>
+  </gresource>
+</gresources>
+

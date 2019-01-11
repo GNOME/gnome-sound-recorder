@@ -16,7 +16,7 @@
 * Author: Meg Ford <megford@gnome.org>
 *
 */
-
+var Gdk = imports.gi.Gdk;
 var Gio = imports.gi.Gio;
 var GLib = imports.gi.GLib;
 var Gst = imports.gi.Gst;
@@ -25,7 +25,6 @@ var Lang = imports.lang;
 
 var MainWindow = imports.mainWindow;
 var Preferences = imports.preferences;
-var Util = imports.util;
 
 var SIGINT = 2;
 var SIGTERM = 15;
@@ -70,7 +69,7 @@ var Application = new Lang.Class({
     vfunc_startup: function() {
         this.parent();
 
-        Util.loadStyleSheet();
+        this._loadStyleSheet();
         log(_("Sound Recorder started"));
         Gst.init(null, 0);
         this._initAppMenu();
@@ -145,6 +144,16 @@ var Application = new Lang.Class({
 
     setSpeakerVolume: function(level) {
          settings.set_double("speaker-volume", level);
+    },
+
+    _loadStyleSheet: function() {
+        var uri = 'resource:///org/gnome/SoundRecorder/Application/application.css';
+        var provider_file = Gio.File.new_for_uri(uri);
+        var provider = new Gtk.CssProvider();
+        provider.load_from_file(provider_file);
+        Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),
+                                                 provider,
+                                                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
     },
 
     _showAbout: function() {
