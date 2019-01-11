@@ -75,7 +75,7 @@ var Application = new Lang.Class({
         Gst.init(null, 0);
         this._initAppMenu();
         application = this;
-        settings = new Gio.Settings({ schema: 'org.gnome.gnome-sound-recorder' });
+        settings = new Gio.Settings({ schema: 'org.gnome.SoundRecorder' });
         this.ensure_directory();
     },
 

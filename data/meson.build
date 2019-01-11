@@ -35,9 +35,10 @@ endif
 
 gsettings_conf = configuration_data()
 gsettings_conf.set('GETTEXT_PACKAGE', meson.project_name ())
+gsettings_conf.set('APP_ID', application_id)
 configure_file(
-  input: 'org.gnome.gnome-sound-recorder.gschema.xml',
-  output: 'org.gnome.gnound-sound-recorder.gschema.xml',
+  input: '@0@.gschema.xml.in'.format(application_id),
+  output: '@0@.gschema.xml'.format(application_id),
   configuration: gsettings_conf,
   install: true,
   install_dir: sound_recorder_schemadir

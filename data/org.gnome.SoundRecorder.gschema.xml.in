@@ -1,5 +1,5 @@
 <schemalist>
-  <schema id="org.gnome.gnome-sound-recorder" path="/org/gnome/gnome-sound-recorder/" gettext-domain="gnome-sound-recorder">
+  <schema id="@APP_ID@" path="/org/gnome/SoundRecorder/" gettext-domain="@GETTEXT_PACKAGE@">
     <key name="window-size" type="ai">
       <default>[780, 480]</default>
       <summary>Window size</summary>
