@@ -68,7 +68,7 @@ var Application = GObject.registerClass(class Application extends Gtk.Applicatio
         Gst.init(null);
         this._initAppMenu();
         application = this;
-        settings = new Gio.Settings({ schema: 'org.gnome.SoundRecorder' });
+        settings = new Gio.Settings({ schema: pkg.name });
         this.ensure_directory();
     }
 
@@ -139,16 +139,15 @@ var Application = GObject.registerClass(class Application extends Gtk.Applicatio
          settings.set_double("speaker-volume", level);
     }
 
-    _loadStyleSheet: function() {
-        var resource = 'resource:///org/gnome/SoundRecorder/Application/application.css';
+    _loadStyleSheet() {
         var provider = new Gtk.CssProvider();
-        provider.load_from_resource(resource);
+        provider.load_from_resource('resource:///org/gnome/SoundRecorder/application.css');
         Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),
                                                  provider,
                                                  Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
     },
 
-    _showAbout: function() {
+    _showAbout() {
         var aboutDialog = new Gtk.AboutDialog();
         aboutDialog.artists = [ 'Reda Lazri <the.red.shortcut@gmail.com>',
                                 'Garrett LeSage <garrettl@gmail.com>',
@@ -160,7 +159,7 @@ var Application = GObject.registerClass(class Application extends Gtk.Applicatio
         aboutDialog.program_name = _("Sound Recorder");
         aboutDialog.copyright = 'Copyright ' + String.fromCharCode(0x00A9) + ' 2013' + String.fromCharCode(0x2013) + 'Meg Ford';
         aboutDialog.license_type = Gtk.License.GPL_2_0;
-        aboutDialog.logo_icon_name = 'org.gnome.SoundRecorder';
+        aboutDialog.logo_icon_name = pkg.name;
         aboutDialog.version = pkg.version;
         aboutDialog.website = 'https://wiki.gnome.org/Apps/SoundRecorder';
         aboutDialog.wrap_license = true;
