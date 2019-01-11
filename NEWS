@@ -1,3 +1,11 @@
+ 3.28.2
+ =======
+ Remote usage of conditional catch statements by Tim Lunn
+ Rename icon to match appid by Alexander Mikhaylenko
+ Rename icon to match appid in the desktop file by Felipe Borges
+ Rename icon to match appid in the about dialog by Felipe Borges
+ Translation updates
+
  3.28.1
  =======
  Translation updates
