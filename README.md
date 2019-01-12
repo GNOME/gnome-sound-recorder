@@ -27,4 +27,4 @@ ninja -C _build
 sudo ninja -C _build install
 ```
 
-We also offer a Flatpak nightly build that you can download and install for the testing the latest changes.
+We also offer a Flatpak nightly build that you can download and install for testing the latest changes.
