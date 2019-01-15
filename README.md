@@ -7,24 +7,20 @@ A simple, modern sound recorder for GNOME
 </a>
 
 
-### Dependencies
+### Useful links
 
-- `meson >= 0.46.0`
-- `gjs >= 1.48.0`
-- `gio-2.0 >= 2.43.4`
-- `glib-2.0 >= 2.39.3`
-- `gtk+-3.0 >= 3.12.0`
-- `gobject-introspection-1.0 >= 1.31.6`
+Homepage: https://wiki.gnome.org/Apps/SoundRecorder
 
+Report issues: https://gitlab.gnome.org/GNOME/gnome-sound-recorder/issues/
 
-### Manual installation
+Donate: http://www.gnome.org/friends/
 
-You can build and install the application from source code using Meson build system.
+Translate: https://wiki.gnome.org/TranslationProject
 
-```
-meson _build --prefix=$PREFIX
-ninja -C _build
-sudo ninja -C _build install
-```
+You can also join us on [#sound-recorder](irc://irc.gnome.org/sound-recorder) 
 
-We also offer a Flatpak nightly build that you can download and install for testing the latest changes.
+### Hacking on Sound Recorder
+
+To build the development version of Sound Recorder and hack on the code
+see the [general guide](https://wiki.gnome.org/Newcomers/BuildProject)
+for building GNOME apps with Flatpak and GNOME Builder.
