@@ -368,7 +368,7 @@ var MainView = new Lang.Class({
                                      "%d Recorded Sounds",
                                       sounds).format(sounds);
         } else {
-            title = "";
+            title = _("No Recorded Sounds");
         }
         header.set_title(title);
 
