@@ -36,7 +36,7 @@ pkg.require({ 'Gdk': '3.0',
               'GstAudio': '1.0',
               'GstPbutils': '1.0' });
 
-var Application = imports.application;
+const Application = imports.application;
 
 function main(argv) {
     return (new Application.Application()).run(argv);

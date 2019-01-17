@@ -17,45 +17,45 @@
  *
  */
 
-var _ = imports.gettext.gettext;
-var Gio = imports.gi.Gio;
-var GLib = imports.gi.GLib;
-var GObject = imports.gi.GObject;
-var Gst = imports.gi.Gst;
-var GstAudio = imports.gi.GstAudio;
-var GstPbutils = imports.gi.GstPbutils;
-var Gtk = imports.gi.Gtk;
-var Pango = imports.gi.Pango;
-var Lang = imports.lang;
-var Mainloop = imports.mainloop;
-var Signals = imports.signals;
+const _ = imports.gettext.gettext;
+const Gio = imports.gi.Gio;
+const GLib = imports.gi.GLib;
+const GObject = imports.gi.GObject;
+const Gst = imports.gi.Gst;
+const GstAudio = imports.gi.GstAudio;
+const GstPbutils = imports.gi.GstPbutils;
+const Gtk = imports.gi.Gtk;
+const Pango = imports.gi.Pango;
+const Lang = imports.lang;
+const Mainloop = imports.mainloop;
+const Signals = imports.signals;
 
-var Application = imports.application;
-var AudioProfile = imports.audioProfile;
-var MainWindow = imports.mainWindow;
-var Listview = imports.listview;
+const Application = imports.application;
+const AudioProfile = imports.audioProfile;
+const MainWindow = imports.mainWindow;
+const Listview = imports.listview;
 
-var PipelineStates = {
+const PipelineStates = {
     PLAYING: 0,
     PAUSED: 1,
     STOPPED: 2
 };
 
-var ErrState = {
+const ErrState = {
     OFF: 0,
     ON: 1
 }
 
-var Channels = {
+const Channels = {
     MONO: 0,
     STEREO: 1
 }
 
-var _TENTH_SEC = 100000000;
+const _TENTH_SEC = 100000000;
 
-var errorDialogState;
+let errorDialogState;
 
-var Record = new Lang.Class({
+const Record = new Lang.Class({
     Name: "Record",
 
     _recordPipeline: function() {
@@ -64,7 +64,7 @@ var Record = new Lang.Class({
         this._view = MainWindow.view;
         this._buildFileName = new BuildFileName();
         this.initialFileName = this._buildFileName.buildInitialFilename();
-        var localDateTime = this._buildFileName.getOrigin();
+        let localDateTime = this._buildFileName.getOrigin();
         this.gstreamerDateTime = Gst.DateTime.new_from_g_date_time(localDateTime);
 
         if (this.initialFileName == -1) {
@@ -77,9 +77,9 @@ var Record = new Lang.Class({
         this.srcElement = Gst.ElementFactory.make("pulsesrc", "srcElement");
 
         if (this.srcElement == null) {
-            var inspect = "gst-inspect-1.0 pulseaudio";
-            var [res, out, err, status] =  GLib.spawn_command_line_sync(inspect);
-            var err_str = String(err)
+            let inspect = "gst-inspect-1.0 pulseaudio";
+            let [res, out, err, status] =  GLib.spawn_command_line_sync(inspect);
+            let err_str = String(err)
             if (err_str.replace(/\W/g, ''))
                 this._showErrorDialog(_("Please install the GStreamer 1.0 PulseAudio plugin."));
             else
@@ -111,7 +111,7 @@ var Record = new Lang.Class({
         this.ebin = Gst.ElementFactory.make("encodebin", "ebin");
         this.ebin.connect("element-added", Lang.bind(this,
             function(ebin, element) {
-                var factory = element.get_factory();
+                let factory = element.get_factory();
 
                 if (factory != null) {
                         this.hasTagSetter = factory.has_interface("GstTagSetter");
@@ -127,8 +127,8 @@ var Record = new Lang.Class({
                 }
             }));
         this.pipeline.add(this.ebin);
-        var ebinProfile = this.ebin.set_property("profile", this._mediaProfile);
-        var srcpad = this.ebin.get_static_pad("src");
+        let ebinProfile = this.ebin.set_property("profile", this._mediaProfile);
+        let srcpad = this.ebin.get_static_pad("src");
         this.filesink = Gst.ElementFactory.make("filesink", "filesink");
         this.filesink.set_property("location", this.initialFileName);
         this.pipeline.add(this.filesink);
@@ -139,11 +139,11 @@ var Record = new Lang.Class({
             this.onEndOfStream();
         }
 
-        var srcLink = this.srcElement.link(this.audioConvert);
-        var audioConvertLink = this.audioConvert.link_filtered(this.level, this.caps);
-        var levelLink = this.level.link(this.volume);
-        var volLink = this.volume.link(this.ebin);
-        var ebinLink = this.ebin.link(this.filesink);
+        let srcLink = this.srcElement.link(this.audioConvert);
+        let audioConvertLink = this.audioConvert.link_filtered(this.level, this.caps);
+        let levelLink = this.level.link(this.volume);
+        let volLink = this.volume.link(this.ebin);
+        let ebinLink = this.ebin.link(this.filesink);
 
         if (!srcLink || !audioConvertLink || !levelLink || !ebinLink) {
             this._showErrorDialog(_("Not all of the elements were linked."));
@@ -156,7 +156,7 @@ var Record = new Lang.Class({
     },
 
     _updateTime: function() {
-        var time = this.pipeline.query_position(Gst.Format.TIME)[1]/Gst.SECOND;
+        let time = this.pipeline.query_position(Gst.Format.TIME)[1]/Gst.SECOND;
 
         if (time >= 0) {
             this._view.setLabel(time, 0);
@@ -178,7 +178,7 @@ var Record = new Lang.Class({
         if (!this.pipeline || this.pipeState == PipelineStates.STOPPED )
             this._recordPipeline();
 
-        var ret = this.pipeline.set_state(Gst.State.PLAYING);
+        let ret = this.pipeline.set_state(Gst.State.PLAYING);
         this.pipeState = PipelineStates.PLAYING;
 
         if (ret == Gst.StateChangeReturn.FAILURE) {
@@ -195,7 +195,7 @@ var Record = new Lang.Class({
     },
 
     stopRecording: function() {
-        var sent = this.pipeline.send_event(Gst.Event.new_eos());
+        let sent = this.pipeline.send_event(Gst.Event.new_eos());
 
         if (this.timeout) {
             GLib.source_remove(this.timeout);
@@ -219,19 +219,19 @@ var Record = new Lang.Class({
 
     _onMessageReceived: function(message) {
         this.localMsg = message;
-        var msg = message.type;
+        let msg = message.type;
         switch(msg) {
 
         case Gst.MessageType.ELEMENT:
             if (GstPbutils.is_missing_plugin_message(this.localMsg)) {
-                var errorOne = null;
-                var errorTwo = null;
-                var detail = GstPbutils.missing_plugin_message_get_installer_detail(this.localMsg);
+                let errorOne = null;
+                let errorTwo = null;
+                let detail = GstPbutils.missing_plugin_message_get_installer_detail(this.localMsg);
 
                 if (detail != null)
                     errorOne = detail;
 
-                var description = GstPbutils.missing_plugin_message_get_description(this.localMsg);
+                let description = GstPbutils.missing_plugin_message_get_description(this.localMsg);
 
                 if (description != null)
                     errorTwo = description;
@@ -241,23 +241,23 @@ var Record = new Lang.Class({
                 break;
             }
 
-            var s = message.get_structure();
+            let s = message.get_structure();
                 if (s) {
                     if (s.has_name("level")) {
-                        var p = null;
-                        var peakVal = 0;
-                        var val = 0;
-                        var st = s.get_value("timestamp");
-                        var dur = s.get_value("duration");
-                        var runTime = s.get_value("running-time");
+                        let p = null;
+                        let peakVal = 0;
+                        let val = 0;
+                        let st = s.get_value("timestamp");
+                        let dur = s.get_value("duration");
+                        let runTime = s.get_value("running-time");
                         peakVal = s.get_value("peak");
 
                         if (peakVal) {
-                            var val = peakVal.get_nth(0);
+                            let val = peakVal.get_nth(0);
 
                             if (val > 0)
 			                    val = 0;
-                            var value = Math.pow(10, val/20);
+                            let value = Math.pow(10, val/20);
                             this.peak = value;
 
 
@@ -275,7 +275,7 @@ var Record = new Lang.Class({
                                 this.baseTime = this.absoluteTime;
 
                             this.runTime = this.absoluteTime- this.baseTime;
-                            var approxTime = Math.round(this.runTime/_TENTH_SEC);
+                            let approxTime = Math.round(this.runTime/_TENTH_SEC);
                             MainWindow.wave._drawEvent(approxTime, this.peak);
                             }
                         }
@@ -287,12 +287,12 @@ var Record = new Lang.Class({
             break;
 
         case Gst.MessageType.WARNING:
-            var warningMessage = message.parse_warning()[0];
+            let warningMessage = message.parse_warning()[0];
             log(warningMessage.toString());
             break;
 
         case Gst.MessageType.ERROR:
-            var errorMessage = message.parse_error();
+            let errorMessage = message.parse_error();
             this._showErrorDialog(errorMessage.toString());
             errorDialogState = ErrState.ON;
             break;
@@ -307,8 +307,8 @@ var Record = new Lang.Class({
 
     _getChannels: function() {
 
-        var channels = null;
-        var channelsPref = Application.application.getChannelsPreferences();
+        let channels = null;
+        let channelsPref = Application.application.getChannelsPreferences();
 
         switch(channelsPref) {
         case Channels.MONO:
@@ -328,7 +328,7 @@ var Record = new Lang.Class({
 
     _showErrorDialog: function(errorStrOne, errorStrTwo) {
         if (errorDialogState == ErrState.OFF) {
-            var errorDialog = new Gtk.MessageDialog ({ modal: true,
+            let errorDialog = new Gtk.MessageDialog ({ modal: true,
                                                        destroy_with_parent: true,
                                                        buttons: Gtk.ButtonsType.OK,
                                                        message_type: Gtk.MessageType.WARNING });
@@ -351,7 +351,7 @@ var Record = new Lang.Class({
     }
 });
 
-var BuildFileName = new Lang.Class({
+const BuildFileName = new Lang.Class({
     Name: "BuildFileName",
 
     buildInitialFilename: function() {
