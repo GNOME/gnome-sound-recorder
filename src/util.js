@@ -25,13 +25,13 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-var Gdk = imports.gi.Gdk;
-var Gio = imports.gi.Gio;
-var Gtk = imports.gi.Gtk;
+const Gdk = imports.gi.Gdk;
+const Gio = imports.gi.Gio;
+const Gtk = imports.gi.Gtk;
 
 function loadStyleSheet() {
-    var uri = 'resource:///org/gnome/SoundRecorder/css/application.css';
-    var provider = new Gtk.CssProvider();
+    let uri = 'resource:///org/gnome/SoundRecorder/css/application.css';
+    let provider = new Gtk.CssProvider();
     provider.load_from_file(Gio.File.new_for_uri(uri));
     Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),
                                              provider,
