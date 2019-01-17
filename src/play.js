@@ -17,42 +17,42 @@
  *
  */
 
-var _ = imports.gettext.gettext;
-var Gio = imports.gi.Gio;
-var GLib = imports.gi.GLib;
-var Gst = imports.gi.Gst;
-var GstAudio = imports.gi.GstAudio;
-var GstPbutils = imports.gi.GstPbutils;
-var Gtk = imports.gi.Gtk;
-var Lang = imports.lang;
-var Mainloop = imports.mainloop;
+const _ = imports.gettext.gettext;
+const Gio = imports.gi.Gio;
+const GLib = imports.gi.GLib;
+const Gst = imports.gi.Gst;
+const GstAudio = imports.gi.GstAudio;
+const GstPbutils = imports.gi.GstPbutils;
+const Gtk = imports.gi.Gtk;
+const Lang = imports.lang;
+const Mainloop = imports.mainloop;
 
-var Application = imports.application;
-var MainWindow = imports.mainWindow;
-var Waveform = imports.waveform;
+const Application = imports.application;
+const MainWindow = imports.mainWindow;
+const Waveform = imports.waveform;
 
-var PipelineStates = {
+const PipelineStates = {
     PLAYING: 0,
     PAUSED: 1,
     STOPPED: 2,
     NULL: 3
 };
 
-var ErrState = {
+const ErrState = {
     OFF: 0,
     ON: 1
 }
 
-var errorDialogState;
+let errorDialogState;
 
-var _TENTH_SEC = 100000000;
+const _TENTH_SEC = 100000000;
 
-var Play = new Lang.Class({
+const Play = new Lang.Class({
     Name: "Play",
 
     _playPipeline: function() {
         errorDialogState = ErrState.OFF;
-        var uri = this._fileToPlay.get_uri();
+        let uri = this._fileToPlay.get_uri();
         this.play = Gst.ElementFactory.make("playbin", "play");
         this.play.set_property("uri", uri);
         this.sink = Gst.ElementFactory.make("pulsesink", "sink");
@@ -134,7 +134,7 @@ var Play = new Lang.Class({
 
     _onMessageReceived: function(message) {
         this.localMsg = message;
-        var msg = message.type;
+        let msg = message.type;
         switch(msg) {
 
         case Gst.MessageType.EOS:
@@ -142,12 +142,12 @@ var Play = new Lang.Class({
             break;
 
         case Gst.MessageType.WARNING:
-            var warningMessage = message.parse_warning()[0];
+            let warningMessage = message.parse_warning()[0];
             log(warningMessage.toString());
             break;
 
         case Gst.MessageType.ERROR:
-            var errorMessage = message.parse_error()[0];
+            let errorMessage = message.parse_error()[0];
             this._showErrorDialog(errorMessage.toString());
             errorDialogState = ErrState.ON;
             break;
@@ -178,7 +178,7 @@ var Play = new Lang.Class({
     },
 
     _updateTime: function() {
-        var time = this.play.query_position(Gst.Format.TIME)[1]/Gst.SECOND;
+        let time = this.play.query_position(Gst.Format.TIME)[1]/Gst.SECOND;
         this.trackDuration = this.play.query_duration(Gst.Format.TIME)[1];
         this.trackDurationSecs = this.trackDuration/Gst.SECOND;
 
@@ -188,7 +188,7 @@ var Play = new Lang.Class({
             MainWindow.view.setLabel(0);
         }
 
-        var absoluteTime = 0;
+        let absoluteTime = 0;
 
         if  (this.clock == null) {
             this.clock = this.play.get_clock();
@@ -203,7 +203,7 @@ var Play = new Lang.Class({
             this.baseTime = absoluteTime;
 
         this.runTime = absoluteTime- this.baseTime;
-        var approxTime = Math.round(this.runTime/_TENTH_SEC);
+        let approxTime = Math.round(this.runTime/_TENTH_SEC);
 
         if (MainWindow.wave != null) {
             MainWindow.wave._drawEvent(approxTime);
@@ -213,7 +213,7 @@ var Play = new Lang.Class({
     },
 
     queryPosition: function() {
-        var position = 0;
+        let position = 0;
         while (position == 0) {
             position = this.play.query_position(Gst.Format.TIME)[1]/Gst.SECOND;
         }
@@ -239,7 +239,7 @@ var Play = new Lang.Class({
 
     _showErrorDialog: function(errorStrOne, errorStrTwo) {
         if (errorDialogState == ErrState.OFF) {
-            var errorDialog = new Gtk.MessageDialog ({ destroy_with_parent: true,
+            let errorDialog = new Gtk.MessageDialog ({ destroy_with_parent: true,
                                                        buttons: Gtk.ButtonsType.OK,
                                                        message_type: Gtk.MessageType.WARNING });
 
