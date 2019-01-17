@@ -1,3 +1,4 @@
+/* exported Listview */
 /*
  * Copyright 2013 Meg Ford
  * This library is free software; you can redistribute it and/or
@@ -62,7 +63,7 @@ let startRecording = false;
 let stopVal = null;
 var trackNumber = 0;
 
-const Listview = new Lang.Class({
+var Listview = new Lang.Class({
     Name: "Listview",
 
     _init: function() {
