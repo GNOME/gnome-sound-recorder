@@ -19,40 +19,40 @@
 
 // based on code from Pitivi
 
-var Cairo = imports.cairo;
-var Gio = imports.gi.Gio;
-var GLib = imports.gi.GLib;
-var GObject = imports.gi.GObject;
-var Gst = imports.gi.Gst;
-var GstAudio = imports.gi.GstAudio;
-var Gtk = imports.gi.Gtk;
-var Lang = imports.lang;
-var Mainloop = imports.mainloop;
+const Cairo = imports.cairo;
+const Gio = imports.gi.Gio;
+const GLib = imports.gi.GLib;
+const GObject = imports.gi.GObject;
+const Gst = imports.gi.Gst;
+const GstAudio = imports.gi.GstAudio;
+const Gtk = imports.gi.Gtk;
+const Lang = imports.lang;
+const Mainloop = imports.mainloop;
 
-var _ = imports.gettext.gettext;
-var C_ = imports.gettext.pgettext;
+const _ = imports.gettext.gettext;
+const C_ = imports.gettext.pgettext;
 
-var MainWindow = imports.mainWindow;
-var Application = imports.application;
+const MainWindow = imports.mainWindow;
+const Application = imports.application;
 
-var INTERVAL = 100000000;
-var peaks = [];
-var pauseVal = 10;
-var waveSamples = 40;
+const INTERVAL = 100000000;
+const peaks = [];
+const pauseVal = 10;
+const waveSamples = 40;
 
-var WaveType = {
+const WaveType = {
     RECORD: 0,
     PLAY: 1
 };
 
-var WaveForm = new Lang.Class({
+const WaveForm = new Lang.Class({
     Name: 'WaveForm',
 
     _init: function(grid, file) {
         this._grid = grid;
 
-        var placeHolder = -100;
-        for (var i = 0; i < 40; i++)
+        let placeHolder = -100;
+        for (let i = 0; i < 40; i++)
             peaks.push(placeHolder);
         if (file) {
             this.waveType = WaveType.PLAY;
@@ -63,9 +63,9 @@ var WaveForm = new Lang.Class({
           this.waveType = WaveType.RECORD;
         }
 
-        var gridWidth = 0;
-        var drawingWidth = 0;
-        var drawingHeight = 0;
+        let gridWidth = 0;
+        let drawingWidth = 0;
+        let drawingHeight = 0;
         this.drawing = Gtk.DrawingArea.new();
         if (this.waveType == WaveType.RECORD) {
             this.drawing.set_property("valign", Gtk.Align.FILL);
@@ -92,8 +92,8 @@ var WaveForm = new Lang.Class({
         this.pipeline =
             Gst.parse_launch("uridecodebin name=decode uri=" + this._uri + " ! audioconvert ! audio/x-raw,channels=2 ! level name=level interval=100000000 post-messages=true ! fakesink qos=false");
         this._level = this.pipeline.get_by_name("level");
-        var decode = this.pipeline.get_by_name("decode");
-        var bus = this.pipeline.get_bus();
+        let decode = this.pipeline.get_by_name("decode");
+        let bus = this.pipeline.get_bus();
         bus.add_signal_watch();
         GLib.unix_signal_add(GLib.PRIORITY_DEFAULT, Application.SIGINT, Application.application.onWindowDestroy);
         GLib.unix_signal_add(GLib.PRIORITY_DEFAULT, Application.SIGTERM, Application.application.onWindowDestroy);
@@ -110,28 +110,28 @@ var WaveForm = new Lang.Class({
     },
 
     _messageCb: function(message) {
-        var msg = message.type;
+        let msg = message.type;
 
         switch(msg) {
         case Gst.MessageType.ELEMENT:
-            var s = message.get_structure();
+            let s = message.get_structure();
 
             if (s) {
 
                 if (s.has_name("level")) {
-                    var peaknumber = 0;
-                    var st = s.get_value("timestamp");
-                    var dur = s.get_value("duration");
-                    var runTime = s.get_value("running-time");
-                    var peakVal = s.get_value("peak");
+                    let peaknumber = 0;
+                    let st = s.get_value("timestamp");
+                    let dur = s.get_value("duration");
+                    let runTime = s.get_value("running-time");
+                    let peakVal = s.get_value("peak");
 
                     if (peakVal) {
-                        var val = peakVal.get_nth(0);
+                        let val = peakVal.get_nth(0);
 
                         if (val > 0)
                             val = 0;
 
-                        var value = Math.pow(10, val/20);
+                        let value = Math.pow(10, val/20);
                         peaks.push(value);
                     }
                 }
@@ -161,7 +161,7 @@ var WaveForm = new Lang.Class({
     },
 
     fillSurface: function(drawing, cr) {
-        var start = 0;
+        let start = 0;
 
         if (this.waveType == WaveType.PLAY) {
 
@@ -175,14 +175,14 @@ var WaveForm = new Lang.Class({
             start = this.recordTime;
         }
 
-        var i = 0;
-        var xAxis = 0;
-        var end = start + 40;
-        var width = this.drawing.get_allocated_width();
-        var waveheight = this.drawing.get_allocated_height();
-        var length = this.nSamples;
-        var pixelsPerSample = width/waveSamples;
-        var gradient = new Cairo.LinearGradient(0, 0, width , waveheight);
+        let i = 0;
+        let xAxis = 0;
+        let end = start + 40;
+        let width = this.drawing.get_allocated_width();
+        let waveheight = this.drawing.get_allocated_height();
+        let length = this.nSamples;
+        let pixelsPerSample = width/waveSamples;
+        let gradient = new Cairo.LinearGradient(0, 0, width , waveheight);
         if (this.waveType == WaveType.PLAY) {
               gradient.addColorStopRGBA(0.75, 0.94, 1.0, 0.94, 0.75);
               gradient.addColorStopRGBA(0.0, 0.94, 1.0, 0.94, 0.22);
@@ -204,7 +204,7 @@ var WaveForm = new Lang.Class({
 
             // Start drawing when we reach the first non-null array member
             if (peaks[i] != null && peaks[i] >= 0) {
-                var idx = i - 1;
+                let idx = i - 1;
 
                 if (start >= 40 && xAxis == 0) {
                      cr.moveTo((xAxis * pixelsPerSample), waveheight);
@@ -224,7 +224,7 @@ var WaveForm = new Lang.Class({
     },
 
     _drawEvent: function(playTime, recPeaks) {
-        var lastTime;
+        let lastTime;
 
         if (this.waveType == WaveType.PLAY) {
             lastTime = this.playTime;
