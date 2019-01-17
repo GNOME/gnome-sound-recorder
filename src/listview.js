@@ -18,25 +18,25 @@
  *
  */
 
-var _ = imports.gettext.gettext;
-var Gio = imports.gi.Gio;
-var GLib = imports.gi.GLib;
-var GObject = imports.gi.GObject;
-var Gst = imports.gi.Gst;
-var GstPbutils = imports.gi.GstPbutils;
-var Lang = imports.lang;
-var Signals = imports.signals;
+const _ = imports.gettext.gettext;
+const Gio = imports.gi.Gio;
+const GLib = imports.gi.GLib;
+const GObject = imports.gi.GObject;
+const Gst = imports.gi.Gst;
+const GstPbutils = imports.gi.GstPbutils;
+const Lang = imports.lang;
+const Signals = imports.signals;
 
-var AudioProfile = imports.audioProfile;
-var MainWindow = imports.mainWindow;
-var Record = imports.record;
+const AudioProfile = imports.audioProfile;
+const MainWindow = imports.mainWindow;
+const Record = imports.record;
 
-var EnumeratorState = {
+const EnumeratorState = {
     ACTIVE: 0,
     CLOSED: 1
 };
 
-var mediaTypeMap = {
+const mediaTypeMap = {
     FLAC: "FLAC",
     OGG_VORBIS: "Ogg Vorbis",
     OPUS: "Opus",
@@ -44,25 +44,25 @@ var mediaTypeMap = {
     MP4: "MP4"
 };
 
-var ListType = {
+const ListType = {
     NEW: 0,
     REFRESH: 1
 };
 
-var CurrentlyEnumerating = {
+const CurrentlyEnumerating = {
     TRUE: 0,
     FALSE: 1
 };
 
-var allFilesInfo = null;
-var currentlyEnumerating = null;
-var fileInfo = null;
-var listType = null;
-var startRecording = false;
-var stopVal = null;
+let allFilesInfo = null;
+let currentlyEnumerating = null;
+let fileInfo = null;
+let listType = null;
+let startRecording = false;
+let stopVal = null;
 var trackNumber = 0;
 
-var Listview = new Lang.Class({
+const Listview = new Lang.Class({
     Name: "Listview",
 
     _init: function() {
@@ -100,14 +100,14 @@ var Listview = new Lang.Class({
         try{
             this._enumerator.next_files_async(20, GLib.PRIORITY_DEFAULT, null, Lang.bind(this,
                 function(obj, res) {
-                    var files = obj.next_files_finish(res);
+                    let files = obj.next_files_finish(res);
 
                     if (files.length) {
                         files.forEach(Lang.bind(this,
                             function(file) {
-                                var returnedName = file.get_attribute_as_string("standard::display-name");
+                                let returnedName = file.get_attribute_as_string("standard::display-name");
                                 try {
-                                    var returnedNumber = parseInt(returnedName.split(" ")[1]);
+                                    let returnedNumber = parseInt(returnedName.split(" ")[1]);
                                     if (returnedNumber > trackNumber)
                                         trackNumber = returnedNumber;
 
@@ -118,19 +118,19 @@ var Listview = new Lang.Class({
                                     log("Tracknumber not returned");
                                     // Don't handle the error
                                 }
-                                var finalFileName = GLib.build_filenamev([this._saveDir.get_path(),
+                                let finalFileName = GLib.build_filenamev([this._saveDir.get_path(),
                                                                           returnedName]);
-                                var fileUri = GLib.filename_to_uri(finalFileName, null);
-                                var timeVal = file.get_modification_time();
-                                var date = GLib.DateTime.new_from_timeval_local(timeVal);
-                                var dateModifiedSortString = date.format("%Y%m%d%H%M%S");
-                                var dateTime = GLib.DateTime.new_from_timeval_local(timeVal);
-                                var dateModifiedDisplayString = MainWindow.displayTime.getDisplayTime(dateTime);
-                                var dateCreatedYes = file.has_attribute("time::created");
-                                var dateCreatedString = null;
+                                let fileUri = GLib.filename_to_uri(finalFileName, null);
+                                let timeVal = file.get_modification_time();
+                                let date = GLib.DateTime.new_from_timeval_local(timeVal);
+                                let dateModifiedSortString = date.format("%Y%m%d%H%M%S");
+                                let dateTime = GLib.DateTime.new_from_timeval_local(timeVal);
+                                let dateModifiedDisplayString = MainWindow.displayTime.getDisplayTime(dateTime);
+                                let dateCreatedYes = file.has_attribute("time::created");
+                                let dateCreatedString = null;
                                 if (this.dateCreatedYes) {
-                                    var dateCreatedVal = file.get_attribute_uint64("time::created");
-                                    var dateCreated = GLib.DateTime.new_from_timeval_local(dateCreatedVal);
+                                    let dateCreatedVal = file.get_attribute_uint64("time::created");
+                                    let dateCreated = GLib.DateTime.new_from_timeval_local(dateCreatedVal);
                                     dateCreatedString = MainWindow.displayTime.getDisplayTime(dateCreated);
                                 }
 
@@ -191,9 +191,9 @@ var Listview = new Lang.Class({
         this.idx = 0;
         this._discoverer = new GstPbutils.Discoverer();
         this._discoverer.start();
-        for (var i = 0; i <= this.endIdx; i++) {
-            var file = allFilesInfo[i];
-            var uri = file.uri;
+        for (let i = 0; i <= this.endIdx; i++) {
+            let file = allFilesInfo[i];
+            let uri = file.uri;
             this._discoverer.discover_uri_async(uri);
         }
         this._runDiscover();
@@ -202,7 +202,7 @@ var Listview = new Lang.Class({
      _runDiscover: function() {
           this._discoverer.connect('discovered', Lang.bind(this,
             function(_discoverer, info, error) {
-                var result = info.get_result();
+                let result = info.get_result();
                 this._onDiscovererFinished(result, info, error);
              }));
     },
@@ -211,16 +211,16 @@ var Listview = new Lang.Class({
         this.result = res;
         if (this.result == GstPbutils.DiscovererResult.OK && allFilesInfo[this.idx]) {
             this.tagInfo = info.get_tags();
-            var appString = "";
+            let appString = "";
             appString = this.tagInfo.get_value_index(Gst.TAG_APPLICATION_NAME, 0);
-            var dateTimeTag = this.tagInfo.get_date_time('datetime')[1];
-            var durationInfo = info.get_duration();
+            let dateTimeTag = this.tagInfo.get_date_time('datetime')[1];
+            let durationInfo = info.get_duration();
             allFilesInfo[this.idx].duration = durationInfo;
 
             /* this.file.dateCreated will usually be null since time::created it doesn't usually exist.
                Therefore, we prefer to set it with tags */
             if (dateTimeTag != null) {
-                var dateTimeCreatedString = dateTimeTag.to_g_date_time();
+                let dateTimeCreatedString = dateTimeTag.to_g_date_time();
 
                 if (dateTimeCreatedString) {
                     allFilesInfo[this.idx].dateCreated = MainWindow.displayTime.getDisplayTime(dateTimeCreatedString);
@@ -312,12 +312,12 @@ var Listview = new Lang.Class({
     },
 
     _getCapsForList: function(info) {
-        var discovererStreamInfo = null;
+        let discovererStreamInfo = null;
         discovererStreamInfo = info.get_stream_info();
-        var containerStreams = info.get_container_streams()[0];
-        var containerCaps = discovererStreamInfo.get_caps();
-        var audioStreams = info.get_audio_streams()[0];
-        var audioCaps =  audioStreams.get_caps();
+        let containerStreams = info.get_container_streams()[0];
+        let containerCaps = discovererStreamInfo.get_caps();
+        let audioStreams = info.get_audio_streams()[0];
+        let audioCaps =  audioStreams.get_caps();
 
         if (containerCaps.can_intersect(this.capTypes(AudioProfile.containerProfileMap.AUDIO_OGG))) {
 
@@ -348,7 +348,7 @@ var Listview = new Lang.Class({
     },
 
     capTypes: function(capString) {
-    	var caps = Gst.Caps.from_string(capString);
+    	let caps = Gst.Caps.from_string(capString);
     	return caps;
     },
 

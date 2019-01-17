@@ -24,10 +24,10 @@ var $API_VERSION = [1, 0];
 // Extend a method to allow more params in a subclass
 // The superclass can safely use Params.parse(), it won't see
 // the extensions.
-// var MyClass = new Lang.Class({
+// const MyClass = new Lang.Class({
 //       ...
 //       method: function(params) {
-//           var mine = Params.filter(params, { anInt: 42 });
+//           let mine = Params.filter(params, { anInt: 42 });
 //           this.parent(params);
 //           ... mine.anInt ...
 //       }
@@ -48,7 +48,7 @@ var $API_VERSION = [1, 0];
 // Return value: a new object, containing the merged parameters from
 // @params and @defaults
 function parse(params, defaults) {
-    var ret = {}, prop;
+    let ret = {}, prop;
     params = params || {};
 
     for (prop in params) {
@@ -78,7 +78,7 @@ function parse(params, defaults) {
 // Return value: a new object, containing the merged parameters from
 // @params and @defaults
 function fill(params, defaults) {
-    var ret = {}, prop;
+    let ret = {}, prop;
     params = params || {};
 
     for (prop in params)
@@ -109,7 +109,7 @@ function fill(params, defaults) {
 // Return value: a new object, containing the merged parameters from
 // @params and @defaults
 function filter(params, defaults) {
-    var ret = {}, prop;
+    let ret = {}, prop;
     params = params || {};
 
     for (prop in defaults) {

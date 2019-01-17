@@ -25,13 +25,13 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-var Gdk = imports.gi.Gdk;
-var GLib = imports.gi.GLib;
-var Gtk = imports.gi.Gtk;
+const Gdk = imports.gi.Gdk;
+const GLib = imports.gi.GLib;
+const Gtk = imports.gi.Gtk;
 
 function loadStyleSheet() {
-    var file = 'application.css';
-    var provider = new Gtk.CssProvider();
+    let file = 'application.css';
+    let provider = new Gtk.CssProvider();
     provider.load_from_path(GLib.build_filenamev([pkg.pkgdatadir,
                                                   file]));
     Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),
