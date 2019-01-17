@@ -1,3 +1,4 @@
+/* exported containerProfileMap audioCodecMap AudioProfile */
 /*
  * Copyright 2013 Meg Ford
  * This library is free software; you can redistribute it and/or
@@ -35,7 +36,7 @@ const comboBoxMap = {
     MP4: 4
 };
 
-const containerProfileMap = {
+var containerProfileMap = {
     OGG: "application/ogg",
     ID3: "application/x-id3",
     MP4: "video/quicktime,variant=(string)iso",
@@ -43,7 +44,7 @@ const containerProfileMap = {
 };
 
 
-const audioCodecMap = {
+var audioCodecMap = {
     FLAC: "audio/x-flac",
     MP3: "audio/mpeg,mpegversion=(int)1,layer=(int)3",
     MP4: "audio/mpeg,mpegversion=(int)4",
@@ -51,8 +52,7 @@ const audioCodecMap = {
     VORBIS: "audio/x-vorbis"
 };
 
-
-const AudioProfile = new Lang.Class({
+var AudioProfile = new Lang.Class({
     Name: 'AudioProfile',
 
     profile: function(profileName){

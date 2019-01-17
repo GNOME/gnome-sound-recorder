@@ -1,3 +1,4 @@
+/* exported OffsetController DisplayTime */
 /*
  * Copyright 2013 Meg Ford
  * This library is free software; you can redistribute it and/or
@@ -35,7 +36,7 @@ const _OFFSET_STEP = 20;
 let CurrentEndIdx;
 let totItems;
 
-const OffsetController = new Lang.Class({
+var OffsetController = new Lang.Class({
     Name: 'OffsetController',
 
     _init: function(context) {
@@ -69,7 +70,7 @@ const OffsetController = new Lang.Class({
     }
 });
 
-const DisplayTime = new Lang.Class({
+var DisplayTime = new Lang.Class({
     Name: 'DisplayTime',
 
     getDisplayTime: function(mtime) {
