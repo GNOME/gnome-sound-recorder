@@ -61,13 +61,11 @@ var Play = new Lang.Class({
         this.clock = this.play.get_clock();
         this.playBus = this.play.get_bus();
         this.playBus.add_signal_watch();
-        this.playBus.connect("message", Lang.bind(this,
-            function(playBus, message) {
-
-                if (message != null) {
-                    this._onMessageReceived(message);
-                }
-            }));
+        this.playBus.connect("message", (playBus, message) => {
+            if (message != null) {
+                this._onMessageReceived(message);
+            }
+        });
     },
 
     startPlaying: function() {
@@ -224,8 +222,8 @@ var Play = new Lang.Class({
 
     updatePosition: function() {
         if (!this.timeout) {
-            this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 10, Lang.bind(this,
-                this._updateTime));
+            this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 10, () =>
+                this._updateTime());
         }
     },
 
@@ -251,11 +249,10 @@ var Play = new Lang.Class({
                 errorDialog.set_property('secondary-text', errorStrTwo);
 
             errorDialog.set_transient_for(Gio.Application.get_default().get_active_window());
-            errorDialog.connect ('response', Lang.bind(this,
-                function() {
-                    errorDialog.destroy();
-                    this.onEndOfStream();
-                }));
+            errorDialog.connect ('response', () => {
+                errorDialog.destroy();
+                this.onEndOfStream();
+            });
             errorDialog.show();
         }
     }
