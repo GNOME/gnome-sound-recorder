@@ -87,10 +87,9 @@ var Preferences = new Lang.Class({
         this.playRange = Gtk.Adjustment.new(MainWindow.volumeValue[0].play, 0, 1.0, 0.05, 0.0, 0.0);
         playVolume.set_adjustment(this.playRange);
         playVolume.set_sensitive(true);
-        playVolume.connect("value-changed", Lang.bind(this, 
-            function() {
-                MainWindow.view.presetVolume(MainWindow.ActiveArea.PLAY, playVolume.get_value());
-            }));
+        playVolume.connect("value-changed", () => {
+            MainWindow.view.presetVolume(MainWindow.ActiveArea.PLAY, playVolume.get_value());
+        });
         grid.attach(playVolume, 2, 2, 2, 1);
         
         let micVolLabel = new Gtk.Label({ label: _("Microphone"),
@@ -102,10 +101,9 @@ var Preferences = new Lang.Class({
         this.recordRange = Gtk.Adjustment.new(MainWindow.volumeValue[0].record, 0, 1.0, 0.05, 0.0, 0.0);
         recordVolume.set_adjustment(this.recordRange);
         recordVolume.set_sensitive(true);
-        recordVolume.connect("value-changed", Lang.bind(this, 
-            function() {
-                MainWindow.view.presetVolume(MainWindow.ActiveArea.RECORD, recordVolume.get_value());
-            }));
+        recordVolume.connect("value-changed", () => {
+            MainWindow.view.presetVolume(MainWindow.ActiveArea.RECORD, recordVolume.get_value());
+        });
         grid.attach(recordVolume, 2, 3, 2, 1);
         
         this.widget.show_all();
