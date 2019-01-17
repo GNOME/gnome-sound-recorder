@@ -79,7 +79,7 @@ var WaveForm = new Lang.Class({
             this._grid.add(this.drawing);
         }
 
-        this.drawing.connect("draw", Lang.bind(this, this.fillSurface));
+        this.drawing.connect("draw", (drawing, cr) => this.fillSurface(drawing, cr));
         this.drawing.show_all();
         this._grid.show_all();
 
@@ -101,13 +101,11 @@ var WaveForm = new Lang.Class({
 
         this.nSamples = Math.ceil(this.duration / INTERVAL);
 
-        bus.connect("message", Lang.bind(this,
-            function(bus, message) {
-
-                if (message != null) {
-                    this._messageCb(message);
-                }
-            }));
+        bus.connect("message", (bus, message) => {
+            if (message != null) {
+                this._messageCb(message);
+            }
+        });
     },
 
     _messageCb: function(message) {

@@ -46,13 +46,14 @@ var InfoDialog = new Lang.Class({
         header.set_show_close_button(false);
         this.widget.set_titlebar(header);
 
+
         let cancelButton = new Gtk.Button({ label: _("Cancel") });
-        cancelButton.connect("clicked", Lang.bind(this, this.onCancelClicked));
+        cancelButton.connect("clicked", () => this.onCancelClicked());
 
         header.pack_start(cancelButton);
 
         let doneButton = new Gtk.Button({ label: _("Done") });
-        doneButton.connect("clicked", Lang.bind(this, this.onDoneClicked));
+        doneButton.connect("clicked", () => this.onDoneClicked());
 
         header.pack_end(doneButton);
 
