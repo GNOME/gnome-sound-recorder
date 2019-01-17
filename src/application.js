@@ -1,3 +1,4 @@
+/* exported SIGINT SIGTERM application Application */
 /*
 * Copyright 2013 Meg Ford
 * This library is free software; you can redistribute it and/or
@@ -27,14 +28,13 @@ const MainWindow = imports.mainWindow;
 const Preferences = imports.preferences;
 const Util = imports.util;
 
-const SIGINT = 2;
-const SIGTERM = 15;
+var SIGINT = 2;
+var SIGTERM = 15;
 
-let application = null;
+var application = null;
 let settings = null;
 
-
-const Application = new Lang.Class({
+var Application = new Lang.Class({
     Name: 'Application',
     Extends: Gtk.Application,
 

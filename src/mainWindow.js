@@ -1,3 +1,7 @@
+/* exported audioProfile displayTime list offsetController
+            play recordPipeline view volumeValue wave ActiveArea
+            RecordPipelineStates _SEC_TIMEOUT MainWindow
+            EncoderComboBox ChannelsComboBox */
 /*
 * Copyright 2013 Meg Ford
 * This library is free software; you can redistribute it and/or
@@ -40,27 +44,27 @@ const Record = imports.record;
 const Waveform = imports.waveform;
 
 let activeProfile = null;
-let audioProfile = null;
-let displayTime = null;
+var audioProfile = null;
+var displayTime = null;
 let grid = null;
 let groupGrid;
 let header;
-let list = null;
+var list = null;
 let loadMoreButton = null;
-let offsetController = null;
-let play = null;
+var offsetController = null;
+var play = null;
 let previousSelRow = null;
-let recordPipeline = null;
+var recordPipeline = null;
 let recordButton = null;
 let appMenuButton = null;
 let selectable = null;
 let setVisibleID = null;
 let UpperBoundVal = 182;
-let view = null;
-let volumeValue = [];
-let wave = null;
+var view = null;
+var volumeValue = [];
+var wave = null;
 
-const ActiveArea = {
+var ActiveArea = {
     RECORD: 0,
     PLAY: 1
 };
@@ -76,16 +80,16 @@ const PipelineStates = {
     STOPPED: 2
 };
 
-const RecordPipelineStates = {
+var RecordPipelineStates = {
     PLAYING: 0,
     PAUSED: 1,
     STOPPED: 2
 };
 
 const _TIME_DIVISOR = 60;
-const _SEC_TIMEOUT = 100;
+var _SEC_TIMEOUT = 100;
 
-const MainWindow = new Lang.Class({
+var MainWindow = new Lang.Class({
     Name: 'MainWindow',
     Extends: Gtk.ApplicationWindow,
 
@@ -831,7 +835,7 @@ const RecordButton = new Lang.Class({
     }
 });
 
-const EncoderComboBox = new Lang.Class({
+var EncoderComboBox = new Lang.Class({
     Name: "EncoderComboBox",
     Extends: Gtk.ComboBoxText,
 
@@ -855,7 +859,7 @@ const EncoderComboBox = new Lang.Class({
     }
 });
 
-const ChannelsComboBox = new Lang.Class({
+var ChannelsComboBox = new Lang.Class({
     Name: "ChannelsComboBox",
     Extends: Gtk.ComboBoxText,
 
