@@ -1,3 +1,4 @@
+/* exported Preferences */
 /*
 * Copyright 2013 Meg Ford
 * This library is free software; you can redistribute it and/or
@@ -33,7 +34,7 @@ let channelsComboBoxText = null;
 let recordVolume= null;
 let playVolume = null;
 
-const Preferences = new Lang.Class({
+var Preferences = new Lang.Class({
     Name: 'Preferences',
     
      _init: function() {    

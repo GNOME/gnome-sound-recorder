@@ -1,3 +1,4 @@
+/* exported InfoDialog */
 /*
  * Copyright 2013 Meg Ford
  * This library is free software; you can redistribute it and/or
@@ -28,7 +29,7 @@ const C_ = imports.gettext.pgettext;
 
 const MainWindow = imports.mainWindow;
 
-const InfoDialog = new Lang.Class({
+var InfoDialog = new Lang.Class({
     Name: 'InfoDialog',
 
     _init: function(fileNav) {

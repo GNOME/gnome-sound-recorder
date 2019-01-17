@@ -1,3 +1,4 @@
+/* exported WaveForm */
 /*
 * Copyright 2013 Meg Ford
 * This library is free software; you can redistribute it and/or
@@ -45,7 +46,7 @@ const WaveType = {
     PLAY: 1
 };
 
-const WaveForm = new Lang.Class({
+var WaveForm = new Lang.Class({
     Name: 'WaveForm',
 
     _init: function(grid, file) {

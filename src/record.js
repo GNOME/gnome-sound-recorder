@@ -1,3 +1,4 @@
+/* exported Record */
 /*
  * Copyright 2013 Meg Ford
  * This library is free software; you can redistribute it and/or
@@ -55,7 +56,7 @@ const _TENTH_SEC = 100000000;
 
 let errorDialogState;
 
-const Record = new Lang.Class({
+var Record = new Lang.Class({
     Name: "Record",
 
     _recordPipeline: function() {
