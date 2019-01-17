@@ -98,35 +98,32 @@ var Record = new Lang.Class({
         this.clock = this.pipeline.get_clock();
         this.recordBus = this.pipeline.get_bus();
         this.recordBus.add_signal_watch();
-        this.recordBus.connect("message", Lang.bind(this,
-            function(recordBus, message) {
-
-                if (message != null) {
-                    this._onMessageReceived(message);
-                }
-            }));
+        this.recordBus.connect("message", (recordBus, message) => {
+            if (message != null) {
+                this._onMessageReceived(message);
+            }
+        });
         this.level = Gst.ElementFactory.make("level", "level");
         this.pipeline.add(this.level);
         this.volume = Gst.ElementFactory.make("volume", "volume");
         this.pipeline.add(this.volume);
         this.ebin = Gst.ElementFactory.make("encodebin", "ebin");
-        this.ebin.connect("element-added", Lang.bind(this,
-            function(ebin, element) {
-                let factory = element.get_factory();
+        this.ebin.connect("element-added", (ebin, element) => {
+            let factory = element.get_factory();
 
-                if (factory != null) {
-                        this.hasTagSetter = factory.has_interface("GstTagSetter");
-                        if (this.hasTagSetter == true) {
-                            this.taglist = Gst.TagList.new_empty();
-                            this.taglist.add_value(Gst.TagMergeMode.APPEND, Gst.TAG_APPLICATION_NAME, _("Sound Recorder"));
-                            element.merge_tags(this.taglist, Gst.TagMergeMode.REPLACE);
-                            this.taglist.add_value(Gst.TagMergeMode.APPEND, Gst.TAG_TITLE, this.initialFileName);
-                            element.merge_tags(this.taglist, Gst.TagMergeMode.REPLACE);
-                            this.taglist.add_value(Gst.TagMergeMode.APPEND, Gst.TAG_DATE_TIME, this.gstreamerDateTime);
-                            element.merge_tags(this.taglist, Gst.TagMergeMode.REPLACE);
-                    }
+            if (factory != null) {
+                this.hasTagSetter = factory.has_interface("GstTagSetter");
+                if (this.hasTagSetter == true) {
+                    this.taglist = Gst.TagList.new_empty();
+                    this.taglist.add_value(Gst.TagMergeMode.APPEND, Gst.TAG_APPLICATION_NAME, _("Sound Recorder"));
+                    element.merge_tags(this.taglist, Gst.TagMergeMode.REPLACE);
+                    this.taglist.add_value(Gst.TagMergeMode.APPEND, Gst.TAG_TITLE, this.initialFileName);
+                    element.merge_tags(this.taglist, Gst.TagMergeMode.REPLACE);
+                    this.taglist.add_value(Gst.TagMergeMode.APPEND, Gst.TAG_DATE_TIME, this.gstreamerDateTime);
+                    element.merge_tags(this.taglist, Gst.TagMergeMode.REPLACE);
                 }
-            }));
+            }
+        });
         this.pipeline.add(this.ebin);
         let ebinProfile = this.ebin.set_property("profile", this._mediaProfile);
         let srcpad = this.ebin.get_static_pad("src");
@@ -191,7 +188,7 @@ var Record = new Lang.Class({
         }
 
         if (!this.timeout) {
-            this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, MainWindow._SEC_TIMEOUT, Lang.bind(this, this._updateTime));
+            this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, MainWindow._SEC_TIMEOUT, () => this._updateTime());
         }
     },
 
@@ -341,12 +338,11 @@ var Record = new Lang.Class({
                 errorDialog.set_property("secondary-text", errorStrTwo);
 
             errorDialog.set_transient_for(Gio.Application.get_default().get_active_window());
-            errorDialog.connect("response", Lang.bind(this,
-                function() {
-                    errorDialog.destroy();
-                    MainWindow.view.onRecordStopClicked();
-                    this.onEndOfStream();
-                }));
+            errorDialog.connect("response", () => {
+                errorDialog.destroy();
+                MainWindow.view.onRecordStopClicked();
+                this.onEndOfStream();
+            });
             errorDialog.show();
         }
     }
