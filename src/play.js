@@ -1,3 +1,4 @@
+/* exported Play */
 /*
  * Copyright 2013 Meg Ford
  * This library is free software; you can redistribute it and/or
@@ -47,7 +48,7 @@ let errorDialogState;
 
 const _TENTH_SEC = 100000000;
 
-const Play = new Lang.Class({
+var Play = new Lang.Class({
     Name: "Play",
 
     _playPipeline: function() {
