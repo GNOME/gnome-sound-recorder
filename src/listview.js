@@ -83,8 +83,8 @@ var Listview = new Lang.Class({
         this._saveDir.enumerate_children_async('standard::display-name,time::created,time::modified',
                                      Gio.FileQueryInfoFlags.NONE,
                                      GLib.PRIORITY_LOW,
-                                     null, Lang.bind(this,
-                                     this._onEnumerator));
+                                     null,
+                                     (obj, res) => this._onEnumerator(obj, res));
     },
 
     _onEnumerator: function(obj, res) {
@@ -99,73 +99,70 @@ var Listview = new Lang.Class({
     _onNextFileComplete: function () {
         fileInfo = [];
         try{
-            this._enumerator.next_files_async(20, GLib.PRIORITY_DEFAULT, null, Lang.bind(this,
-                function(obj, res) {
-                    let files = obj.next_files_finish(res);
+            this._enumerator.next_files_async(20, GLib.PRIORITY_DEFAULT, null, (obj, res) => {
+                let files = obj.next_files_finish(res);
 
-                    if (files.length) {
-                        files.forEach(Lang.bind(this,
-                            function(file) {
-                                let returnedName = file.get_attribute_as_string("standard::display-name");
-                                try {
-                                    let returnedNumber = parseInt(returnedName.split(" ")[1]);
-                                    if (returnedNumber > trackNumber)
-                                        trackNumber = returnedNumber;
+                if (files.length) {
+                    files.forEach((file) => {
+                        let returnedName = file.get_attribute_as_string("standard::display-name");
+                        try {
+                            let returnedNumber = parseInt(returnedName.split(" ")[1]);
+                            if (returnedNumber > trackNumber)
+                                trackNumber = returnedNumber;
 
-                                }  catch (e) {
-                                    if (!e instanceof TypeError)
-                                        throw e;
+                        }  catch (e) {
+                            if (!e instanceof TypeError)
+                                throw e;
 
-                                    log("Tracknumber not returned");
-                                    // Don't handle the error
-                                }
-                                let finalFileName = GLib.build_filenamev([this._saveDir.get_path(),
-                                                                          returnedName]);
-                                let fileUri = GLib.filename_to_uri(finalFileName, null);
-                                let timeVal = file.get_modification_time();
-                                let date = GLib.DateTime.new_from_timeval_local(timeVal);
-                                let dateModifiedSortString = date.format("%Y%m%d%H%M%S");
-                                let dateTime = GLib.DateTime.new_from_timeval_local(timeVal);
-                                let dateModifiedDisplayString = MainWindow.displayTime.getDisplayTime(dateTime);
-                                let dateCreatedYes = file.has_attribute("time::created");
-                                let dateCreatedString = null;
-                                if (this.dateCreatedYes) {
-                                    let dateCreatedVal = file.get_attribute_uint64("time::created");
-                                    let dateCreated = GLib.DateTime.new_from_timeval_local(dateCreatedVal);
-                                    dateCreatedString = MainWindow.displayTime.getDisplayTime(dateCreated);
-                                }
-
-                                fileInfo =
-                                    fileInfo.concat({ appName: null,
-                                                      dateCreated: dateCreatedString,
-                                                      dateForSort: dateModifiedSortString,
-                                                      dateModified: dateModifiedDisplayString,
-                                                      duration: null,
-                                                      fileName: returnedName,
-                                                      mediaType: null,
-                                                      title: null,
-                                                      uri: fileUri });
-                            }));
-                        this._sortItems(fileInfo);
-                    } else {
-                        stopVal = EnumeratorState.CLOSED;
-                        this._enumerator.close(null);
-
-                        if (MainWindow.offsetController.getEndIdx() == -1) {
-                             if (listType == ListType.NEW) {
-                                MainWindow.view.listBoxAdd();
-                                MainWindow.view.scrolledWinAdd();
-                            } else if (listType == ListType.REFRESH) {
-                                MainWindow.view.scrolledWinDelete();
-                            }
-                            currentlyEnumerating = CurrentlyEnumerating.FALSE;
-                        } else {
-
-                        this._setDiscover();
+                            log("Tracknumber not returned");
+                            // Don't handle the error
                         }
-                        return;
-                   }
-                }));
+                        let finalFileName = GLib.build_filenamev([this._saveDir.get_path(),
+                                                                  returnedName]);
+                        let fileUri = GLib.filename_to_uri(finalFileName, null);
+                        let timeVal = file.get_modification_time();
+                        let date = GLib.DateTime.new_from_timeval_local(timeVal);
+                        let dateModifiedSortString = date.format("%Y%m%d%H%M%S");
+                        let dateTime = GLib.DateTime.new_from_timeval_local(timeVal);
+                        let dateModifiedDisplayString = MainWindow.displayTime.getDisplayTime(dateTime);
+                        let dateCreatedYes = file.has_attribute("time::created");
+                        let dateCreatedString = null;
+                        if (this.dateCreatedYes) {
+                            let dateCreatedVal = file.get_attribute_uint64("time::created");
+                            let dateCreated = GLib.DateTime.new_from_timeval_local(dateCreatedVal);
+                            dateCreatedString = MainWindow.displayTime.getDisplayTime(dateCreated);
+                        }
+
+                        fileInfo =
+                            fileInfo.concat({ appName: null,
+                                              dateCreated: dateCreatedString,
+                                              dateForSort: dateModifiedSortString,
+                                              dateModified: dateModifiedDisplayString,
+                                              duration: null,
+                                              fileName: returnedName,
+                                              mediaType: null,
+                                              title: null,
+                                              uri: fileUri });
+                    });
+                    this._sortItems(fileInfo);
+                } else {
+                    stopVal = EnumeratorState.CLOSED;
+                    this._enumerator.close(null);
+
+                    if (MainWindow.offsetController.getEndIdx() == -1) {
+                         if (listType == ListType.NEW) {
+                            MainWindow.view.listBoxAdd();
+                            MainWindow.view.scrolledWinAdd();
+                        } else if (listType == ListType.REFRESH) {
+                            MainWindow.view.scrolledWinDelete();
+                        }
+                        currentlyEnumerating = CurrentlyEnumerating.FALSE;
+                    } else {
+                        this._setDiscover();
+                    }
+                    return;
+               }
+            });
         } catch(e) {
             log(e);
         }
@@ -201,11 +198,10 @@ var Listview = new Lang.Class({
      },
 
      _runDiscover: function() {
-          this._discoverer.connect('discovered', Lang.bind(this,
-            function(_discoverer, info, error) {
-                let result = info.get_result();
-                this._onDiscovererFinished(result, info, error);
-             }));
+        this._discoverer.connect('discovered', (_discoverer, info, error) => {
+            let result = info.get_result();
+            this._onDiscovererFinished(result, info, error);
+        });
     },
 
     _onDiscovererFinished: function(res, info, err) {
