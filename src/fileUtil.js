@@ -17,25 +17,25 @@
  *
  */
 
-var Gettext = imports.gettext;
-var _ = imports.gettext.gettext;
-var Gio = imports.gi.Gio;
-var GLib = imports.gi.GLib;
-var GObject = imports.gi.GObject;
-var Gst = imports.gi.Gst;
-var GstPbutils = imports.gi.GstPbutils;
-var Lang = imports.lang;
-var Signals = imports.signals;
+const Gettext = imports.gettext;
+const _ = imports.gettext.gettext;
+const Gio = imports.gi.Gio;
+const GLib = imports.gi.GLib;
+const GObject = imports.gi.GObject;
+const Gst = imports.gi.Gst;
+const GstPbutils = imports.gi.GstPbutils;
+const Lang = imports.lang;
+const Signals = imports.signals;
 
-var Listview = imports.listview;
-var MainWindow = imports.mainWindow;
-var Record = imports.record;
+const Listview = imports.listview;
+const MainWindow = imports.mainWindow;
+const Record = imports.record;
 
-var _OFFSET_STEP = 20;
-var CurrentEndIdx;
-var totItems;
+const _OFFSET_STEP = 20;
+let CurrentEndIdx;
+let totItems;
 
-var OffsetController = new Lang.Class({
+const OffsetController = new Lang.Class({
     Name: 'OffsetController',
 
     _init: function(context) {
@@ -69,18 +69,18 @@ var OffsetController = new Lang.Class({
     }
 });
 
-var DisplayTime = new Lang.Class({
+const DisplayTime = new Lang.Class({
     Name: 'DisplayTime',
 
     getDisplayTime: function(mtime) {
-        var text = "";
-        var DAY = 86400000000;
-        var now = GLib.DateTime.new_now_local();
-        var difference = now.difference(mtime);
-        var days = Math.floor(difference / DAY);
-        var weeks = Math.floor(difference / (7 * DAY));
-        var months = Math.floor(difference / (30 * DAY));
-        var years = Math.floor(difference / (365 * DAY));
+        let text = "";
+        let DAY = 86400000000;
+        let now = GLib.DateTime.new_now_local();
+        let difference = now.difference(mtime);
+        let days = Math.floor(difference / DAY);
+        let weeks = Math.floor(difference / (7 * DAY));
+        let months = Math.floor(difference / (30 * DAY));
+        let years = Math.floor(difference / (365 * DAY));
 
         if (difference < DAY) {
             text = mtime.format('%X');
