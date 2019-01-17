@@ -341,8 +341,7 @@ var MainView = new Lang.Class({
     },
 
     scrolledWinAdd: function() {
-        this._scrolledWin = new Gtk.ScrolledWindow({ shadow_type: Gtk.ShadowType.IN,
-                                                     vexpand: true });
+        this._scrolledWin = new Gtk.ScrolledWindow({ vexpand: true });
         this._scrolledWin.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
         this.scrollbar = this._scrolledWin.get_vadjustment();
 
