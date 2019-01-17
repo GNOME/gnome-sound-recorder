@@ -45,26 +45,23 @@ var Application = new Lang.Class({
 
     _initAppMenu: function() {
         let preferences = new Gio.SimpleAction({ name: 'preferences' });
-        preferences.connect('activate', Lang.bind(this,
-            function() {
-                this._showPreferences();
-            }));
+        preferences.connect('activate', () => {
+            this._showPreferences();
+        });
         this.add_action(preferences);
 
         let aboutAction = new Gio.SimpleAction({ name: 'about' });
-        aboutAction.connect('activate', Lang.bind(this,
-            function() {
-                this._showAbout();
-            }));
+        aboutAction.connect('activate', () => {
+            this._showAbout();
+        });
         this.add_action(aboutAction);
 
         let quitAction = new Gio.SimpleAction({ name: 'quit' });
-        quitAction.connect('activate', Lang.bind(this,
-            function() {
-                this.quit();
-            }));
-         this.add_action(quitAction);
-         this.add_accelerator('<Primary>q', 'app.quit', null);
+        quitAction.connect('activate', () => {
+            this.quit();
+        });
+        this.add_action(quitAction);
+        this.add_accelerator('<Primary>q', 'app.quit', null);
     },
 
     vfunc_startup: function() {
@@ -105,10 +102,9 @@ var Application = new Lang.Class({
     _showPreferences: function() {
         let preferencesDialog = new Preferences.Preferences();
 
-        preferencesDialog.widget.connect('response', Lang.bind(this,
-            function(widget, response) {
-                preferencesDialog.widget.destroy();
-            }));
+        preferencesDialog.widget.connect('response', (widget, response) => {
+            preferencesDialog.widget.destroy();
+        });
     },
 
     getPreferences: function() {
