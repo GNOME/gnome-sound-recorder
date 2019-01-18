@@ -21,7 +21,6 @@
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
-const Lang = imports.lang;
 
 const _ = imports.gettext.gettext;
 const C_ = imports.gettext.pgettext;
@@ -34,10 +33,8 @@ let channelsComboBoxText = null;
 let recordVolume= null;
 let playVolume = null;
 
-var Preferences = new Lang.Class({
-    Name: 'Preferences',
-    
-     _init: function() {    
+var Preferences = class Preferences {
+    constructor() {
         this.widget = new Gtk.Dialog ({ title: _("Preferences"),
                                         resizable: false,
                                         modal: true,
@@ -45,10 +42,10 @@ var Preferences = new Lang.Class({
                                         default_width: 400,
                                         margin_top: 5,
                                         use_header_bar: 1,
-                                        hexpand: true }); 
-                                        
+                                        hexpand: true });
+
         this.widget.set_transient_for(Gio.Application.get_default().get_active_window());
-        
+
         let grid = new Gtk.Grid ({ orientation: Gtk.Orientation.VERTICAL,
                                    row_homogeneous: true,
                                    column_homogeneous: true,
@@ -61,15 +58,15 @@ var Preferences = new Lang.Class({
                                    margin_top: 12 });
         let contentArea = this.widget.get_content_area();
         contentArea.pack_start(grid, true, true, 2);
-        
+
         let formatLabel = new Gtk.Label({ label: _("Preferred format"),
                                           halign: Gtk.Align.END });
         formatLabel.get_style_context().add_class('dim-label');
         grid.attach(formatLabel, 0, 0, 2, 1);
-        
+
         formatComboBoxText = new MainWindow.EncoderComboBox();
         grid.attach(formatComboBoxText, 2, 0, 2, 1);
-        
+
         let channelsLabel = new Gtk.Label({ label: _("Default mode"),
                                             halign: Gtk.Align.END });
         channelsLabel.get_style_context().add_class('dim-label');
@@ -82,7 +79,7 @@ var Preferences = new Lang.Class({
                                           halign: Gtk.Align.END });
         volumeLabel.get_style_context().add_class('dim-label');
         grid.attach(volumeLabel, 0, 2, 2, 1);
-        
+
         playVolume = new Gtk.Scale({ orientation: Gtk.Orientation.HORIZONTAL });
         this.playRange = Gtk.Adjustment.new(MainWindow.volumeValue[0].play, 0, 1.0, 0.05, 0.0, 0.0);
         playVolume.set_adjustment(this.playRange);
@@ -91,12 +88,12 @@ var Preferences = new Lang.Class({
             MainWindow.view.presetVolume(MainWindow.ActiveArea.PLAY, playVolume.get_value());
         });
         grid.attach(playVolume, 2, 2, 2, 1);
-        
+
         let micVolLabel = new Gtk.Label({ label: _("Microphone"),
                                           halign: Gtk.Align.END });
         micVolLabel.get_style_context().add_class('dim-label');
         grid.attach(micVolLabel, 0, 3, 2, 1);
-        
+
         recordVolume = new Gtk.Scale({ orientation: Gtk.Orientation.HORIZONTAL });
         this.recordRange = Gtk.Adjustment.new(MainWindow.volumeValue[0].record, 0, 1.0, 0.05, 0.0, 0.0);
         recordVolume.set_adjustment(this.recordRange);
@@ -105,11 +102,11 @@ var Preferences = new Lang.Class({
             MainWindow.view.presetVolume(MainWindow.ActiveArea.RECORD, recordVolume.get_value());
         });
         grid.attach(recordVolume, 2, 3, 2, 1);
-        
+
         this.widget.show_all();
-      },
-      
-      onDoneClicked: function() {
-        this.widget.destroy(); 
-      }  
-});
+    }
+
+    onDoneClicked() {
+        this.widget.destroy();
+    }
+}

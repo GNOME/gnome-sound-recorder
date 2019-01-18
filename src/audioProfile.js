@@ -20,9 +20,9 @@
 
 const _ = imports.gettext.gettext;
 const Gio = imports.gi.Gio;
+const GObject = imports.gi.GObject;
 const Gst = imports.gi.Gst;
 const GstPbutils = imports.gi.GstPbutils;
-const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 
 const MainWindow = imports.mainWindow;
@@ -52,14 +52,13 @@ var audioCodecMap = {
     VORBIS: "audio/x-vorbis"
 };
 
-var AudioProfile = new Lang.Class({
-    Name: 'AudioProfile',
-
-    profile: function(profileName){
-        if (profileName)
+var AudioProfile = class AudioProfile {
+    profile(profileName) {
+        if (profileName) {
             this._profileName = profileName;
-       else
+        } else {
             this._profileName = comboBoxMap.OGG_VORBIS;
+        }
 
         switch(this._profileName) {
 
@@ -86,9 +85,9 @@ var AudioProfile = new Lang.Class({
         default:
             break;
         }
-    },
+    }
 
-    mediaProfile: function(){
+    mediaProfile() {
         let audioCaps;
         this._containerProfile = null;
         if (this._values.audio && this._values.container) {
@@ -105,9 +104,9 @@ var AudioProfile = new Lang.Class({
         } else {
             return -1;
         }
-    },
+    }
 
-    fileExtensionReturner: function() {
+    fileExtensionReturner() {
         let suffixName;
 
         if (this._values.audio) {
@@ -121,4 +120,4 @@ var AudioProfile = new Lang.Class({
         this.audioSuffix = ("." + suffixName);
         return this.audioSuffix;
     }
-});
+}

@@ -22,17 +22,14 @@
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
-const Lang = imports.lang;
 
 const _ = imports.gettext.gettext;
 const C_ = imports.gettext.pgettext;
 
 const MainWindow = imports.mainWindow;
 
-var InfoDialog = new Lang.Class({
-    Name: 'InfoDialog',
-
-    _init: function(fileNav) {
+var InfoDialog = class InfoDialog {
+    constructor(fileNav) {
         let fileName = fileNav;
 
         this._file = Gio.File.new_for_uri(fileNav.uri);
@@ -156,15 +153,15 @@ var InfoDialog = new Lang.Class({
         grid.attach_next_to(this._mediaTypeData, this._mediaType, Gtk.PositionType.RIGHT, 2, 1);
 
         this.widget.show_all();
-    },
+    }
 
-    onDoneClicked: function() {
+    onDoneClicked() {
         let newFileName = this._fileNameEntry.get_text();
         this._file.set_display_name_async(newFileName, GLib.PRIORITY_DEFAULT, null, null);
         this.widget.destroy();
-    },
+    }
 
-    onCancelClicked: function() {
+    onCancelClicked() {
         this.widget.destroy();
     }
-});
+}
