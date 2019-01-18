@@ -37,3 +37,11 @@ src_res = gnome.compile_resources(
   install: true,
   install_dir: sound_recoder_pkgdatadir
 )
+
+run_target('run',
+  command: join_paths(meson.build_root(), 'src', application_id),
+  depends: [
+    data_res,
+    src_res,
+  ]
+)
