@@ -6,7 +6,6 @@ sound_recorder_sources = files(
   'listview.js',
   'main.js',
   'mainWindow.js',
-  'params.js',
   'play.js',
   'preferences.js',
   'record.js',
