@@ -5,7 +5,7 @@ app_conf.set('PACKAGE_VERSION', meson.project_version())
 app_conf.set('GJS', gjs_console)
 app_conf.set('APPLICATION_ID', application_id)
 
-configure_file(
+app = configure_file(
   input: 'org.gnome.SoundRecorder.in',
   output: application_id,
   install: true,
@@ -13,11 +13,19 @@ configure_file(
   configuration: app_conf
 )
 
-gnome.compile_resources(
+src_res = gnome.compile_resources(
   application_id + '.src',
   'org.gnome.SoundRecorder.src.gresource.xml',
   source_dir: '.',
   gresource_bundle: true,
   install: true,
   install_dir: sound_recorder_pkgdatadir
+)
+
+run_target('run',
+  command: app,
+  depends: [
+    data_res,
+    src_res,
+  ]
 )
