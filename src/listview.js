@@ -25,7 +25,6 @@ const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Gst = imports.gi.Gst;
 const GstPbutils = imports.gi.GstPbutils;
-const Lang = imports.lang;
 const Signals = imports.signals;
 
 const AudioProfile = imports.audioProfile;
@@ -63,40 +62,38 @@ let startRecording = false;
 let stopVal = null;
 var trackNumber = 0;
 
-var Listview = new Lang.Class({
-    Name: "Listview",
-
-    _init: function() {
+var Listview = class Listview {
+    constructor() {
         stopVal = EnumeratorState.ACTIVE;
         allFilesInfo = [];
 
         // Save a reference to the savedir to quickly access it
         this._saveDir = Gio.Application.get_default().saveDir;
-    },
+    }
 
-    monitorListview: function() {
+    monitorListview() {
         this.dirMonitor = this._saveDir.monitor_directory(Gio.FileMonitorFlags.WATCH_MOVES, null);
-        this.dirMonitor.connect('changed', this._onDirChanged);
-    },
+        this.dirMonitor.connect('changed', (dirMonitor, file1, file2, eventType) => this._onDirChanged(dirMonitor, file1, file2, eventType));
+    }
 
-    enumerateDirectory: function() {
+    enumerateDirectory() {
         this._saveDir.enumerate_children_async('standard::display-name,time::created,time::modified',
                                      Gio.FileQueryInfoFlags.NONE,
                                      GLib.PRIORITY_LOW,
                                      null,
                                      (obj, res) => this._onEnumerator(obj, res));
-    },
+    }
 
-    _onEnumerator: function(obj, res) {
+    _onEnumerator(obj, res) {
         this._enumerator = obj.enumerate_children_finish(res);
 
         if (this._enumerator == null)
             log("The contents of the Recordings directory were not indexed.");
         else
             this._onNextFileComplete();
-    },
+    }
 
-    _onNextFileComplete: function () {
+    _onNextFileComplete () {
         fileInfo = [];
         try{
             this._enumerator.next_files_async(20, GLib.PRIORITY_DEFAULT, null, (obj, res) => {
@@ -166,9 +163,9 @@ var Listview = new Lang.Class({
         } catch(e) {
             log(e);
         }
-    },
+    }
 
-    _sortItems: function(fileArr) {
+    _sortItems(fileArr) {
         allFilesInfo = allFilesInfo.concat(fileArr);
         allFilesInfo.sort(function(a, b) {
             return b.dateForSort - a.dateForSort;
@@ -177,13 +174,13 @@ var Listview = new Lang.Class({
         if (stopVal == EnumeratorState.ACTIVE) {
             this._onNextFileComplete();
         }
-    },
+    }
 
-    getItemCount: function() {
+    getItemCount() {
         return allFilesInfo.length;
-    },
+    }
 
-    _setDiscover: function() {
+    _setDiscover() {
         this._controller = MainWindow.offsetController;
         this.endIdx = this._controller.getEndIdx();
         this.idx = 0;
@@ -195,16 +192,16 @@ var Listview = new Lang.Class({
             this._discoverer.discover_uri_async(uri);
         }
         this._runDiscover();
-     },
+    }
 
-     _runDiscover: function() {
+     _runDiscover() {
         this._discoverer.connect('discovered', (_discoverer, info, error) => {
             let result = info.get_result();
             this._onDiscovererFinished(result, info, error);
         });
-    },
+    }
 
-    _onDiscovererFinished: function(res, info, err) {
+    _onDiscovererFinished(res, info, err) {
         this.result = res;
         if (this.result == GstPbutils.DiscovererResult.OK && allFilesInfo[this.idx]) {
             this.tagInfo = info.get_tags();
@@ -241,24 +238,24 @@ var Listview = new Lang.Class({
                 MainWindow.view.listBoxAdd();
                 MainWindow.view.scrolledWinAdd();
                 currentlyEnumerating = CurrentlyEnumerating.FALSE;
-            } else if (listType == ListType.REFRESH){
+            } else if (listType == ListType.REFRESH) {
                 MainWindow.view.scrolledWinDelete();
                 currentlyEnumerating = CurrentlyEnumerating.FALSE;
             }
             //return false;
         }
         this.idx++;
-    },
+    }
 
-    setListTypeNew: function() {
+    setListTypeNew() {
         listType = ListType.NEW;
-    },
+    }
 
-    setListTypeRefresh: function() {
+    setListTypeRefresh() {
         listType = ListType.REFRESH;
-    },
+    }
 
-    _onDirChanged: function(dirMonitor, file1, file2, eventType) {
+    _onDirChanged(dirMonitor, file1, file2, eventType) {
         if (eventType == Gio.FileMonitorEvent.DELETED && Gio.Application.get_default().saveDir.equal(file1)) {
             Gio.Application.get_default().ensure_directory();
             this._saveDir = Gio.Application.get_default().saveDir;
@@ -281,9 +278,9 @@ var Listview = new Lang.Class({
         else if (eventType == Gio.FileMonitorEvent.CREATED) {
             startRecording = true;
         }
-    },
+    }
 
-    _onDirChangedDeb: function(dirMonitor, file1, file2, eventType) {
+    _onDirChangedDeb(dirMonitor, file1, file2, eventType) {
         /* Workaround for Debian and Tails not recognizing Gio.FileMointor.WATCH_MOVES */
         if (eventType == Gio.FileMonitorEvent.DELETED && Gio.Application.get_default().saveDir.equal(file1)) {
             Gio.Application.get_default().ensure_directory();
@@ -306,9 +303,9 @@ var Listview = new Lang.Class({
         else if (eventType == Gio.FileMonitorEvent.CREATED) {
             startRecording = true;
         }
-    },
+    }
 
-    _getCapsForList: function(info) {
+    _getCapsForList(info) {
         let discovererStreamInfo = null;
         discovererStreamInfo = info.get_stream_info();
         let containerStreams = info.get_container_streams()[0];
@@ -342,16 +339,14 @@ var Listview = new Lang.Class({
                 // Remove the file from the array if we don't recognize it
                 allFilesInfo.splice(this.idx, 1);
         }
-    },
+    }
 
-    capTypes: function(capString) {
-    	let caps = Gst.Caps.from_string(capString);
-    	return caps;
-    },
+    capTypes(capString) {
+        let caps = Gst.Caps.from_string(capString);
+        return caps;
+    }
 
-    getFilesInfoForList: function() {
+    getFilesInfoForList() {
         return allFilesInfo;
     }
-});
-
-
+}
