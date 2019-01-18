@@ -1,4 +1,5 @@
 sound_recorder_sources = files(
+  '../data/application.css',
   'application.js',
   'audioProfile.js',
   'fileUtil.js',
@@ -28,7 +29,7 @@ configure_file(
   configuration: app_conf
 )
 
-gnome.compile_resources(
+resources = gnome.compile_resources(
   application_id + '.src',
   'org.gnome.SoundRecorder.src.gresource.xml',
   source_dir: '.',
@@ -36,4 +37,11 @@ gnome.compile_resources(
   gresource_bundle: true,
   install: true,
   install_dir: sound_recoder_pkgdatadir
+)
+
+run_target('run',
+  command: join_paths(meson.build_root(), 'src', application_id),
+  depends: [
+    resources,
+  ]
 )

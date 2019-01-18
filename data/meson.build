@@ -30,9 +30,4 @@ configure_file(
   install_dir: sound_recorder_schemadir
 )
 
-install_data(
-  'application.css',
-  install_dir: sound_recoder_pkgdatadir
-)
-
 subdir('appdata')
