@@ -25,7 +25,6 @@ const Gst = imports.gi.Gst;
 const GstAudio = imports.gi.GstAudio;
 const GstPbutils = imports.gi.GstPbutils;
 const Gtk = imports.gi.Gtk;
-const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 
 const Application = imports.application;
@@ -48,10 +47,8 @@ let errorDialogState;
 
 const _TENTH_SEC = 100000000;
 
-var Play = new Lang.Class({
-    Name: "Play",
-
-    _playPipeline: function() {
+var Play = class Play {
+    _playPipeline() {
         errorDialogState = ErrState.OFF;
         let uri = this._fileToPlay.get_uri();
         this.play = Gst.ElementFactory.make("playbin", "play");
@@ -66,9 +63,9 @@ var Play = new Lang.Class({
                 this._onMessageReceived(message);
             }
         });
-    },
+    }
 
-    startPlaying: function() {
+    startPlaying() {
         this.baseTime = 0;
 
         if (!this.play || this.playState == PipelineStates.STOPPED ) {
@@ -92,9 +89,9 @@ var Play = new Lang.Class({
         }
         GLib.unix_signal_add(GLib.PRIORITY_DEFAULT, Application.SIGINT, Application.application.onWindowDestroy);
         GLib.unix_signal_add(GLib.PRIORITY_DEFAULT, Application.SIGTERM, Application.application.onWindowDestroy);
-    },
+    }
 
-    pausePlaying: function() {
+    pausePlaying() {
         this.play.set_state(Gst.State.PAUSED);
         this.playState = PipelineStates.PAUSED;
 
@@ -102,15 +99,15 @@ var Play = new Lang.Class({
             GLib.source_remove(this.timeout);
             this.timeout = null;
         }
-    },
+    }
 
-    stopPlaying: function() {
+    stopPlaying() {
         if (this.playState != PipelineStates.STOPPED) {
             this.onEnd();
         }
-    },
+    }
 
-    onEnd: function() {
+    onEnd() {
         this.play.set_state(Gst.State.NULL);
         this.playState = PipelineStates.STOPPED;
         this.playBus.remove_signal_watch();
@@ -125,13 +122,13 @@ var Play = new Lang.Class({
             MainWindow.wave.endDrawing();
 
         errorDialogState = ErrState.OFF;
-    },
+    }
 
-    onEndOfStream: function() {
+    onEndOfStream() {
         MainWindow.view.onPlayStopClicked();
-    },
+    }
 
-    _onMessageReceived: function(message) {
+    _onMessageReceived(message) {
         this.localMsg = message;
         let msg = message.type;
         switch(msg) {
@@ -170,13 +167,13 @@ var Play = new Lang.Class({
             }
             break;
         }
-    },
+    }
 
-    getPipeStates: function() {
+    getPipeStates() {
         return this.playState;
-    },
+    }
 
-    _updateTime: function() {
+    _updateTime() {
         let time = this.play.query_position(Gst.Format.TIME)[1]/Gst.SECOND;
         this.trackDuration = this.play.query_duration(Gst.Format.TIME)[1];
         this.trackDurationSecs = this.trackDuration/Gst.SECOND;
@@ -209,34 +206,34 @@ var Play = new Lang.Class({
         }
 
         return true;
-    },
+    }
 
-    queryPosition: function() {
+    queryPosition() {
         let position = 0;
         while (position == 0) {
             position = this.play.query_position(Gst.Format.TIME)[1]/Gst.SECOND;
         }
 
         return position;
-    },
+    }
 
-    updatePosition: function() {
+    updatePosition() {
         if (!this.timeout) {
             this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 10, () =>
                 this._updateTime());
         }
-    },
+    }
 
-    setVolume: function(value) {
+    setVolume(value) {
         this.play.set_volume(GstAudio.StreamVolumeFormat.CUBIC, value);
-    },
+    }
 
-    passSelected: function(selected) {
+    passSelected(selected) {
         this._selected = selected;
         this._fileToPlay = MainWindow.view.loadPlay(this._selected);
-    },
+    }
 
-    _showErrorDialog: function(errorStrOne, errorStrTwo) {
+    _showErrorDialog(errorStrOne, errorStrTwo) {
         if (errorDialogState == ErrState.OFF) {
             let errorDialog = new Gtk.MessageDialog ({ destroy_with_parent: true,
                                                        buttons: Gtk.ButtonsType.OK,
@@ -256,4 +253,4 @@ var Play = new Lang.Class({
             errorDialog.show();
         }
     }
-});
+}

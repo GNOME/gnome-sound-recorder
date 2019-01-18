@@ -27,7 +27,6 @@ const GstAudio = imports.gi.GstAudio;
 const GstPbutils = imports.gi.GstPbutils;
 const Gtk = imports.gi.Gtk;
 const Pango = imports.gi.Pango;
-const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const Signals = imports.signals;
 
@@ -45,21 +44,19 @@ const PipelineStates = {
 const ErrState = {
     OFF: 0,
     ON: 1
-}
+};
 
 const Channels = {
     MONO: 0,
     STEREO: 1
-}
+};
 
 const _TENTH_SEC = 100000000;
 
 let errorDialogState;
 
-var Record = new Lang.Class({
-    Name: "Record",
-
-    _recordPipeline: function() {
+var Record = class Record {
+    _recordPipeline() {
         errorDialogState = ErrState.OFF;
         this.baseTime = 0;
         this._view = MainWindow.view;
@@ -151,9 +148,9 @@ var Record = new Lang.Class({
 
         GLib.unix_signal_add(GLib.PRIORITY_DEFAULT, Application.SIGINT, Application.application.onWindowDestroy);
         GLib.unix_signal_add(GLib.PRIORITY_DEFAULT, Application.SIGTERM, Application.application.onWindowDestroy);
-    },
+    }
 
-    _updateTime: function() {
+    _updateTime() {
         let time = this.pipeline.query_position(Gst.Format.TIME)[1]/Gst.SECOND;
 
         if (time >= 0) {
@@ -161,9 +158,9 @@ var Record = new Lang.Class({
         }
 
         return true;
-    },
+    }
 
-    startRecording: function(profile) {
+    startRecording(profile) {
         this.profile = profile;
         this._audioProfile = MainWindow.audioProfile;
         this._mediaProfile = this._audioProfile.mediaProfile();
@@ -190,9 +187,9 @@ var Record = new Lang.Class({
         if (!this.timeout) {
             this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, MainWindow._SEC_TIMEOUT, () => this._updateTime());
         }
-    },
+    }
 
-    stopRecording: function() {
+    stopRecording() {
         let sent = this.pipeline.send_event(Gst.Event.new_eos());
 
         if (this.timeout) {
@@ -202,9 +199,9 @@ var Record = new Lang.Class({
 
         if (MainWindow.wave != null)
             MainWindow.wave.endDrawing();
-    },
+    }
 
-    onEndOfStream: function() {
+    onEndOfStream() {
         this.pipeline.set_state(Gst.State.NULL);
         this.pipeState = PipelineStates.STOPPED;
 
@@ -213,9 +210,9 @@ var Record = new Lang.Class({
 
         this._updateTime();
         errorDialogState = ErrState.OFF;
-    },
+    }
 
-    _onMessageReceived: function(message) {
+    _onMessageReceived(message) {
         this.localMsg = message;
         let msg = message.type;
         switch(msg) {
@@ -295,15 +292,15 @@ var Record = new Lang.Class({
             errorDialogState = ErrState.ON;
             break;
         }
-    },
+    }
 
-    setVolume: function(value) {
+    setVolume(value) {
         if (this.volume) {
             this.volume.set_volume(GstAudio.StreamVolumeFormat.CUBIC, value);
         }
-    },
+    }
 
-    _getChannels: function() {
+    _getChannels() {
 
         let channels = null;
         let channelsPref = Application.application.getChannelsPreferences();
@@ -322,9 +319,9 @@ var Record = new Lang.Class({
         }
 
         return channels;
-    },
+    }
 
-    _showErrorDialog: function(errorStrOne, errorStrTwo) {
+    _showErrorDialog(errorStrOne, errorStrTwo) {
         if (errorDialogState == ErrState.OFF) {
             let errorDialog = new Gtk.MessageDialog ({ modal: true,
                                                        destroy_with_parent: true,
@@ -346,12 +343,10 @@ var Record = new Lang.Class({
             errorDialog.show();
         }
     }
-});
+}
 
-const BuildFileName = new Lang.Class({
-    Name: "BuildFileName",
-
-    buildInitialFilename: function() {
+const BuildFileName = class BuildFileName {
+    buildInitialFilename() {
         var fileExtensionName = MainWindow.audioProfile.fileExtensionReturner();
         var dir = Gio.Application.get_default().saveDir;
         this.dateTime = GLib.DateTime.new_now_local();
@@ -362,13 +357,13 @@ const BuildFileName = new Lang.Class({
         this.clip = dir.get_child_for_display_name(clipName);
         var file = this.clip.get_path();
         return file;
-    },
+    }
 
-    getTitle: function() {
+    getTitle() {
         return this.clip;
-    },
+    }
 
-    getOrigin: function() {
+    getOrigin() {
         return this.dateTime;
     }
-});
+}
