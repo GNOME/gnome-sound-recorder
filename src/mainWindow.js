@@ -37,7 +37,6 @@ const AudioProfile = imports.audioProfile;
 const FileUtil = imports.fileUtil;
 const Info = imports.info;
 const Listview = imports.listview;
-const Params = imports.params;
 const Play = imports.play;
 const Preferences = imports.preferences;
 const Record = imports.record;
@@ -97,15 +96,16 @@ var MainWindow = GObject.registerClass(class MainWindow extends Gtk.ApplicationW
         view = new MainView();
         play = new Play.Play();
 
-        params = Params.fill(params, { title: GLib.get_application_name(),
-                                       default_height: 480,
-                                       default_width: 780,
-                                       height_request: 480,
-                                       width_request: 640,
-                                       hexpand: true,
-                                       vexpand: true,
-                                       icon_name: "org.gnome.SoundRecorder" });
-        super._init(params);
+        super._init(Object.assign({
+            title: GLib.get_application_name(),
+            default_height: 480,
+            default_width: 780,
+            height_request: 480,
+            width_request: 640,
+            hexpand: true,
+            vexpand: true,
+            icon_name: "org.gnome.SoundRecorder"
+        }, params));
 
         header = new Gtk.HeaderBar({ hexpand: true,
                                      show_close_button: true });
@@ -137,11 +137,12 @@ var MainWindow = GObject.registerClass(class MainWindow extends Gtk.ApplicationW
 
 const MainView = GObject.registerClass(class MainView extends Gtk.Stack {
     _init(params) {
-        params = Params.fill(params, { vexpand: true,
-                                       transition_type: Gtk.StackTransitionType.CROSSFADE,
-                                       transition_duration: 100,
-                                       visible: true });
-        super._init(params);
+        super._init(Object.assign({
+            vexpand: true,
+            transition_type: Gtk.StackTransitionType.CROSSFADE,
+            transition_duration: 100,
+            visible: true
+        }, params));
 
         this._addListviewPage('listviewPage');
         this.labelID = null;
