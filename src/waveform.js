@@ -27,7 +27,6 @@ const GObject = imports.gi.GObject;
 const Gst = imports.gi.Gst;
 const GstAudio = imports.gi.GstAudio;
 const Gtk = imports.gi.Gtk;
-const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 
 const _ = imports.gettext.gettext;
@@ -46,10 +45,8 @@ const WaveType = {
     PLAY: 1
 };
 
-var WaveForm = new Lang.Class({
-    Name: 'WaveForm',
-
-    _init: function(grid, file) {
+var WaveForm = class WaveForm {
+    constructor(grid, file) {
         this._grid = grid;
 
         let placeHolder = -100;
@@ -87,9 +84,9 @@ var WaveForm = new Lang.Class({
             this._launchPipeline();
             this.startGeneration();
         }
-    },
+    }
 
-    _launchPipeline: function() {
+    _launchPipeline() {
         this.pipeline =
             Gst.parse_launch("uridecodebin name=decode uri=" + this._uri + " ! audioconvert ! audio/x-raw,channels=2 ! level name=level interval=100000000 post-messages=true ! fakesink qos=false");
         this._level = this.pipeline.get_by_name("level");
@@ -106,9 +103,9 @@ var WaveForm = new Lang.Class({
                 this._messageCb(message);
             }
         });
-    },
+    }
 
-    _messageCb: function(message) {
+    _messageCb(message) {
         let msg = message.type;
 
         switch(msg) {
@@ -149,17 +146,17 @@ var WaveForm = new Lang.Class({
             this.stopGeneration();
             break;
         }
-    },
+    }
 
-    startGeneration: function() {
+    startGeneration() {
         this.pipeline.set_state(Gst.State.PLAYING);
-    },
+    }
 
-    stopGeneration: function() {
+    stopGeneration() {
         this.pipeline.set_state(Gst.State.NULL);
-    },
+    }
 
-    fillSurface: function(drawing, cr) {
+    fillSurface(drawing, cr) {
         let start = 0;
 
         if (this.waveType == WaveType.PLAY) {
@@ -169,9 +166,9 @@ var WaveForm = new Lang.Class({
             }
             start = Math.floor(this.playTime);
         } else {
-
-            if (this.recordTime >= 0)
-            start = this.recordTime;
+            if (this.recordTime >= 0) {
+                start = this.recordTime;
+            }
         }
 
         let i = 0;
@@ -218,11 +215,11 @@ var WaveForm = new Lang.Class({
         cr.closePath();
         cr.strokePreserve();
         cr.setSource(gradient);
-	    cr.fillPreserve();
-	    cr.$dispose();
-    },
+        cr.fillPreserve();
+        cr.$dispose();
+    }
 
-    _drawEvent: function(playTime, recPeaks) {
+    _drawEvent(playTime, recPeaks) {
         let lastTime;
 
         if (this.waveType == WaveType.PLAY) {
@@ -250,9 +247,9 @@ var WaveForm = new Lang.Class({
                 this.drawing.queue_draw();
         }
         return true;
-    },
+    }
 
-    endDrawing: function() {
+    endDrawing() {
         if (this.pipeline)
             this.stopGeneration();
 
@@ -264,4 +261,4 @@ var WaveForm = new Lang.Class({
             log(e);
         }
     }
-});
+}

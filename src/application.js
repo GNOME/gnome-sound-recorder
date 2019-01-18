@@ -20,9 +20,9 @@
 
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
+const GObject = imports.gi.GObject;
 const Gst = imports.gi.Gst;
 const Gtk = imports.gi.Gtk;
-const Lang = imports.lang;
 
 const MainWindow = imports.mainWindow;
 const Preferences = imports.preferences;
@@ -34,16 +34,13 @@ var SIGTERM = 15;
 var application = null;
 let settings = null;
 
-var Application = new Lang.Class({
-    Name: 'Application',
-    Extends: Gtk.Application,
-
-    _init: function() {
-        this.parent({ application_id: pkg.name });
+var Application = GObject.registerClass(class Application extends Gtk.Application {
+    _init() {
+        super._init({ application_id: pkg.name });
         GLib.set_application_name(_("SoundRecorder"));
-    },
+    }
 
-    _initAppMenu: function() {
+    _initAppMenu() {
         let preferences = new Gio.SimpleAction({ name: 'preferences' });
         preferences.connect('activate', () => {
             this._showPreferences();
@@ -62,10 +59,10 @@ var Application = new Lang.Class({
         });
         this.add_action(quitAction);
         this.add_accelerator('<Primary>q', 'app.quit', null);
-    },
+    }
 
-    vfunc_startup: function() {
-        this.parent();
+    vfunc_startup() {
+        super.vfunc_startup();
 
         Util.loadStyleSheet();
         log(_("Sound Recorder started"));
@@ -74,22 +71,22 @@ var Application = new Lang.Class({
         application = this;
         settings = new Gio.Settings({ schema: 'org.gnome.gnome-sound-recorder' });
         this.ensure_directory();
-    },
+    }
 
-    ensure_directory: function() {
+    ensure_directory() {
         /* Translators: "Recordings" here refers to the name of the directory where the application places files */
         let path = GLib.build_filenamev([GLib.get_home_dir(), _("Recordings")]);
 
         // Ensure Recordings directory
         GLib.mkdir_with_parents(path, parseInt("0755", 8));
         this.saveDir = Gio.file_new_for_path(path);
-    },
+    }
 
-    vfunc_activate: function() {
+    vfunc_activate() {
         (this.window = new MainWindow.MainWindow({ application: this })).show();
-    },
+    }
 
-    onWindowDestroy: function() {
+    onWindowDestroy() {
         if (MainWindow.wave.pipeline)
             MainWindow.wave.pipeline.set_state(Gst.State.NULL);
         if (MainWindow._record.pipeline)
@@ -97,53 +94,53 @@ var Application = new Lang.Class({
 
         if (MainWindow.play.play)
             MainWindow.play.play.set_state(Gst.State.NULL);
-    },
+    }
 
-    _showPreferences: function() {
+    _showPreferences() {
         let preferencesDialog = new Preferences.Preferences();
 
         preferencesDialog.widget.connect('response', (widget, response) => {
             preferencesDialog.widget.destroy();
         });
-    },
+    }
 
-    getPreferences: function() {
+    getPreferences() {
         let set = settings.get_int("media-type-preset");
         return set;
-     },
+    }
 
-    setPreferences: function(profileName) {
+    setPreferences(profileName) {
         settings.set_int("media-type-preset", profileName);
-    },
+    }
 
-    getChannelsPreferences: function() {
+    getChannelsPreferences() {
         let set = settings.get_int("channel");
         return set;
-    },
+    }
 
-    setChannelsPreferences: function(channel) {
+    setChannelsPreferences(channel) {
         settings.set_int("channel", channel);
-    },
+    }
 
-    getMicVolume: function() {
+    getMicVolume() {
         let micVolLevel = settings.get_double("mic-volume");
         return micVolLevel;
-    },
+    }
 
-    setMicVolume: function(level) {
+    setMicVolume(level) {
          settings.set_double("mic-volume", level);
-    },
+    }
 
-    getSpeakerVolume: function() {
+    getSpeakerVolume() {
         let speakerVolLevel = settings.get_double("speaker-volume");
         return speakerVolLevel;
-    },
+    }
 
-    setSpeakerVolume: function(level) {
+    setSpeakerVolume(level) {
          settings.set_double("speaker-volume", level);
-    },
+    }
 
-    _showAbout: function() {
+    _showAbout() {
         let aboutDialog = new Gtk.AboutDialog();
         aboutDialog.artists = [ 'Reda Lazri <the.red.shortcut@gmail.com>',
                                 'Garrett LeSage <garrettl@gmail.com>',

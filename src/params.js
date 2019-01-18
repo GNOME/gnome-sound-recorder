@@ -24,14 +24,14 @@ var $API_VERSION = [1, 0];
 // Extend a method to allow more params in a subclass
 // The superclass can safely use Params.parse(), it won't see
 // the extensions.
-// const MyClass = new Lang.Class({
+// class MyClass {
 //       ...
 //       method: function(params) {
 //           let mine = Params.filter(params, { anInt: 42 });
-//           this.parent(params);
+//           super(params);
 //           ... mine.anInt ...
 //       }
-// });
+// }
 
 // parse:
 // @params: caller-provided parameter object, or %null
@@ -126,5 +126,3 @@ function filter(params, defaults) {
 
     return ret;
 }
-
-
