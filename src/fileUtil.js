@@ -25,7 +25,6 @@ const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Gst = imports.gi.Gst;
 const GstPbutils = imports.gi.GstPbutils;
-const Lang = imports.lang;
 const Signals = imports.signals;
 
 const Listview = imports.listview;
@@ -36,21 +35,19 @@ const _OFFSET_STEP = 20;
 let CurrentEndIdx;
 let totItems;
 
-var OffsetController = new Lang.Class({
-    Name: 'OffsetController',
-
-    _init: function(context) {
+var OffsetController = class OffsetController {
+    constructor(context) {
         this._offset = 0;
         this._itemCount = 0;
         this._context = context;
         CurrentEndIdx = _OFFSET_STEP;
-    },
+    }
 
-    getOffset: function() {
+    getOffset() {
         return this._offset;
-    },
+    }
 
-    getEndIdx: function() {
+    getEndIdx() {
         totItems = MainWindow.list.getItemCount();
         if (CurrentEndIdx < totItems) {
             this.endIdx = CurrentEndIdx -1;
@@ -59,21 +56,19 @@ var OffsetController = new Lang.Class({
         }
 
         return this.endIdx;
-    },
+    }
 
-    increaseEndIdxStep: function() {
+    increaseEndIdxStep() {
         CurrentEndIdx += _OFFSET_STEP;
-    },
+    }
 
-    getcidx: function() {
+    getcidx() {
         return CurrentEndIdx;
     }
-});
+}
 
-var DisplayTime = new Lang.Class({
-    Name: 'DisplayTime',
-
-    getDisplayTime: function(mtime) {
+var DisplayTime = class DisplayTime {
+    getDisplayTime(mtime) {
         let text = "";
         let DAY = 86400000000;
         let now = GLib.DateTime.new_now_local();
@@ -112,6 +107,4 @@ var DisplayTime = new Lang.Class({
         }
         return text;
     }
-});
-
-
+}
