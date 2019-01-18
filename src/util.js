@@ -26,14 +26,13 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 var Gdk = imports.gi.Gdk;
-var GLib = imports.gi.GLib;
+var Gio = imports.gi.Gio;
 var Gtk = imports.gi.Gtk;
 
 function loadStyleSheet() {
-    var file = 'application.css';
+    var uri = 'resource:///org/gnome/SoundRecorder/css/application.css';
     var provider = new Gtk.CssProvider();
-    provider.load_from_path(GLib.build_filenamev([pkg.pkgdatadir,
-                                                  file]));
+    provider.load_from_file(Gio.File.new_for_uri(uri));
     Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),
                                              provider,
                                              Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
