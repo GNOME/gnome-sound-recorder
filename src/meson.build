@@ -28,7 +28,7 @@ configure_file(
   configuration: app_conf
 )
 
-gnome.compile_resources(
+src_res = gnome.compile_resources(
   application_id + '.src',
   'org.gnome.SoundRecorder.src.gresource.xml',
   source_dir: '.',
