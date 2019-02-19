@@ -50,6 +50,7 @@ var WaveForm = class WaveForm {
         this._grid = grid;
 
         let placeHolder = -100;
+        this.recordTime = placeHolder;
         for (let i = 0; i < 40; i++)
             peaks.push(placeHolder);
         if (file) {
@@ -166,7 +167,7 @@ var WaveForm = class WaveForm {
             }
             start = Math.floor(this.playTime);
         } else {
-            if (this.recordTime >= 0) {
+            if (this.recordTime && this.recordTime >= 0) {
                 start = this.recordTime;
             }
         }
@@ -191,7 +192,7 @@ var WaveForm = class WaveForm {
             cr.setSourceRGBA(0.0, 185, 161, 255);
         }
 
-        for(i = start; i <= end; i++) {
+        for(i = start; i < end; i++) {
 
             // Keep moving until we get to a non-null array member
             if (peaks[i] < 0) {
@@ -236,11 +237,9 @@ var WaveForm = class WaveForm {
 
         } else {
             peaks.push(recPeaks);
-            lastTime = this.recordTime;
             this.recordTime = playTime;
 
             if (peaks.length < this.recordTime) {
-                log("error");
                 return true;
             }
             if (this.drawing)

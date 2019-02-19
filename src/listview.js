@@ -103,14 +103,13 @@ var Listview = class Listview {
                     files.forEach((file) => {
                         let returnedName = file.get_attribute_as_string("standard::display-name");
                         try {
-                            let returnedNumber = parseInt(returnedName.split(" ")[1]);
+                            let returnedNumber = parseInt(returnedName.split(" ").pop());
                             if (returnedNumber > trackNumber)
                                 trackNumber = returnedNumber;
 
                         }  catch (e) {
                             if (!e instanceof TypeError)
                                 throw e;
-
                             log("Tracknumber not returned");
                             // Don't handle the error
                         }

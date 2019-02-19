@@ -30,6 +30,7 @@ const Util = imports.util;
 
 var SIGINT = 2;
 var SIGTERM = 15;
+var application = null;
 
 var Application = GObject.registerClass(class Application extends Gtk.Application {
     _init() {
