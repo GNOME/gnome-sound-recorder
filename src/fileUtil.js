@@ -1,4 +1,4 @@
-/* exported OffsetController DisplayTime */
+/* exported OffsetController DisplayTime BuildFileName */
 /*
  * Copyright 2013 Meg Ford
  * This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ const Gst = imports.gi.Gst;
 const GstPbutils = imports.gi.GstPbutils;
 const Signals = imports.signals;
 
+const Application = imports.application;
 const Listview = imports.listview;
 const MainWindow = imports.mainWindow;
 const Record = imports.record;
@@ -108,3 +109,38 @@ var DisplayTime = class DisplayTime {
         return text;
     }
 }
+
+var BuildFileName = class BuildFileName {
+    _getShowFileExtension() {
+        return Application.application.getShowFileExtension();
+    }
+
+    buildInitialFilename() {
+        var showFileExtension = this._getShowFileExtension();
+        var fileExtensionName = MainWindow.audioProfile.fileExtensionReturner();
+        var dir = Gio.Application.get_default().saveDir;
+        this.dateTime = GLib.DateTime.new_now_local();
+        var clipNumber = Listview.trackNumber + 1;
+        if(showFileExtension){
+            /* Translators: ""Clip %d"" is the default name assigned to a file created
+                by the application (for example, "Clip 1"). */
+            var clipName = _("Clip %d%s").format(clipNumber.toString(), fileExtensionName);
+        } else {
+            /* Translators: ""Clip %d"" is the default name assigned to a file created
+                by the application (for example, "Clip 1"). */
+            var clipName = _("Clip %d").format(clipNumber.toString());
+        }
+        this.clip = dir.get_child_for_display_name(clipName);
+        var file = this.clip.get_path();
+        return file;
+    }
+
+    getTitle() {
+        return this.clip;
+    }
+
+    getOrigin() {
+        return this.dateTime;
+    }
+}
+

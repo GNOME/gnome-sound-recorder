@@ -32,6 +32,7 @@ const Signals = imports.signals;
 
 const Application = imports.application;
 const AudioProfile = imports.audioProfile;
+const fileUtil = imports.fileUtil;
 const MainWindow = imports.mainWindow;
 const Listview = imports.listview;
 
@@ -58,9 +59,8 @@ let errorDialogState;
 var Record = class Record {
     _recordPipeline() {
         errorDialogState = ErrState.OFF;
-        this.baseTime = 0;
-        this._view = MainWindow.view;
-        this._buildFileName = new BuildFileName();
+        this._baseTime = 0;
+        this._buildFileName = new fileUtil.BuildFileName();
         this.initialFileName = this._buildFileName.buildInitialFilename();
         let localDateTime = this._buildFileName.getOrigin();
         this.gstreamerDateTime = Gst.DateTime.new_from_g_date_time(localDateTime);

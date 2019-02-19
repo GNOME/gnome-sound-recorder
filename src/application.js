@@ -32,7 +32,6 @@ var SIGINT = 2;
 var SIGTERM = 15;
 
 var application = null;
-let settings = null;
 
 var Application = GObject.registerClass(class Application extends Gtk.Application {
     _init() {
@@ -138,6 +137,14 @@ var Application = GObject.registerClass(class Application extends Gtk.Applicatio
 
     setSpeakerVolume(level) {
          settings.set_double("speaker-volume", level);
+    }
+
+    getShowFileExtension() {
+        return settings.get_boolean("file-extension");
+    }
+
+    setShowFileExtension(show) {
+        settings.set_boolean("file-extension", show);
     }
 
     _showAbout() {
