@@ -1,5 +1,5 @@
 <schemalist>
-  <schema id="@APP_ID@" path="/org/gnome/SoundRecorder/" gettext-domain="@GETTEXT_PACKAGE@">
+  <schema id="org.gnome.SoundRecorder" path="/org/gnome/SoundRecorder/" gettext-domain="SoundRecorder">
     <key name="window-size" type="ai">
       <default>[780, 480]</default>
       <summary>Window size</summary>
@@ -29,6 +29,11 @@
       <default>0.75</default>
       <summary>Speaker volume level</summary>
       <description>Speaker volume level.</description>
+    </key>
+    <key name="file-extension" type="b">
+      <default>true</default>
+      <summary>Show file extension</summary>
+      <description>Shows file extension in filename. If there is no mapping set, file extension will not be shown.</description>
     </key>
   </schema>
 </schemalist>
