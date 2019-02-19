@@ -25,6 +25,7 @@ const Gtk = imports.gi.Gtk;
 const _ = imports.gettext.gettext;
 const C_ = imports.gettext.pgettext;
 
+const Application = imports.application;
 const MainWindow = imports.mainWindow;
 const Main = imports.main;
 
@@ -102,6 +103,18 @@ var Preferences = class Preferences {
             MainWindow.view.presetVolume(MainWindow.ActiveArea.RECORD, recordVolume.get_value());
         });
         grid.attach(recordVolume, 2, 3, 2, 1);
+
+        let fileExtensionLabel = new Gtk.Label({ label: _("Include file extension"),
+                                            halign: Gtk.Align.END });
+        fileExtensionLabel.get_style_context().add_class('dim-label');
+        grid.attach(fileExtensionLabel, 0, 4, 2, 1);
+
+        let fileExtensionButton = new Gtk.CheckButton();
+        grid.attach(fileExtensionButton, 2, 4, 2, 1);
+        fileExtensionButton.set_active(Application.application.getShowFileExtension());
+        fileExtensionButton.connect("toggled", () => {
+            Application.application.setShowFileExtension(fileExtensionButton.get_active());
+        });
 
         this.widget.show_all();
     }
