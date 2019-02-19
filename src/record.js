@@ -261,7 +261,7 @@ var Record = class Record {
                             if (this.baseTime == 0)
                                 this.baseTime = this.absoluteTime;
 
-                            this.runTime = this.absoluteTime- this.baseTime;
+                            this.runTime = this.absoluteTime - this.baseTime;
                             let approxTime = Math.round(this.runTime/_TENTH_SEC);
                             MainWindow.wave._drawEvent(approxTime, this.peak);
                             }
@@ -292,7 +292,6 @@ var Record = class Record {
     }
 
     _getChannels() {
-
         let channels = null;
         let channelsPref = Application.application.getChannelsPreferences();
 

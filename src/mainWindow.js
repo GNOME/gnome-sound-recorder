@@ -222,6 +222,7 @@ const MainView = GObject.registerClass(class MainView extends Gtk.Stack {
         this.recordGrid.hide();
         recordPipeline = RecordPipelineStates.STOPPED;
         recordButton.set_sensitive(true);
+
         if (this.listBox != null)
             this.listBox.set_selection_mode(Gtk.SelectionMode.SINGLE);
     }
