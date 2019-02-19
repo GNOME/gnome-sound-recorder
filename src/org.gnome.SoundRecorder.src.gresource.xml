@@ -3,6 +3,7 @@
   <gresource prefix="/org/gnome/SoundRecorder/js">
     <file>application.js</file>
     <file>audioProfile.js</file>
+    <file>errorDialog.js</file>
     <file>fileUtil.js</file>
     <file>info.js</file>
     <file>listview.js</file>

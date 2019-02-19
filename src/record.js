@@ -32,6 +32,7 @@ const Signals = imports.signals;
 
 const Application = imports.application;
 const AudioProfile = imports.audioProfile;
+const ErrorDialog = imports.errorDialog;
 const fileUtil = imports.fileUtil;
 const MainWindow = imports.mainWindow;
 const Listview = imports.listview;
@@ -40,11 +41,6 @@ const PipelineStates = {
     PLAYING: 0,
     PAUSED: 1,
     STOPPED: 2
-};
-
-const ErrState = {
-    OFF: 0,
-    ON: 1
 };
 
 const Channels = {
@@ -58,17 +54,15 @@ let errorDialogState;
 
 var Record = class Record {
     _recordPipeline() {
-        errorDialogState = ErrState.OFF;
-        this._baseTime = 0;
+        errorDialogState = ErrorDialog.ErrState.OFF;
+        this.fbaseTime = 0;
         this._buildFileName = new fileUtil.BuildFileName();
         this.initialFileName = this._buildFileName.buildInitialFilename();
         let localDateTime = this._buildFileName.getOrigin();
         this.gstreamerDateTime = Gst.DateTime.new_from_g_date_time(localDateTime);
 
         if (this.initialFileName == -1) {
-            this._showErrorDialog(_("Unable to create Recordings directory."));
-            errorDialogState = ErrState.ON;
-            this.onEndOfStream();
+            this._handleError(_("Unable to create Recordings directory."));
         }
 
         this.pipeline = new Gst.Pipeline({ name: "pipe" });
@@ -79,12 +73,10 @@ var Record = class Record {
             let [res, out, err, status] =  GLib.spawn_command_line_sync(inspect);
             let err_str = String(err)
             if (err_str.replace(/\W/g, ''))
-                this._showErrorDialog(_("Please install the GStreamer 1.0 PulseAudio plugin."));
+                this._handleError(_("Please install the GStreamer 1.0 PulseAudio plugin."));
             else
-                this._showErrorDialog(_("Your audio capture settings are invalid."));
+                this._handleError(_("Your audio capture settings are invalid."));
 
-            errorDialogState = ErrState.ON;
-            this.onEndOfStream();
             return;
         }
 
@@ -129,9 +121,7 @@ var Record = class Record {
         this.pipeline.add(this.filesink);
 
         if (!this.pipeline || !this.filesink) {
-            this._showErrorDialog(_("Not all elements could be created."));
-            errorDialogState = ErrState.ON;
-            this.onEndOfStream();
+            this._handleError(_("Not all elements could be created."));
         }
 
         let srcLink = this.srcElement.link(this.audioConvert);
@@ -141,9 +131,7 @@ var Record = class Record {
         let ebinLink = this.ebin.link(this.filesink);
 
         if (!srcLink || !audioConvertLink || !levelLink || !ebinLink) {
-            this._showErrorDialog(_("Not all of the elements were linked."));
-            errorDialogState = ErrState.ON;
-            this.onEndOfStream();
+            this._handleError(_("Not all of the elements were linked."));
         }
 
         GLib.unix_signal_add(GLib.PRIORITY_DEFAULT, Application.SIGINT, Application.application.onWindowDestroy);
@@ -154,7 +142,7 @@ var Record = class Record {
         let time = this.pipeline.query_position(Gst.Format.TIME)[1]/Gst.SECOND;
 
         if (time >= 0) {
-            this._view.setLabel(time, 0);
+            MainWindow.view.setLabel(time, 0);
         }
 
         return true;
@@ -166,8 +154,7 @@ var Record = class Record {
         this._mediaProfile = this._audioProfile.mediaProfile();
 
         if (this._mediaProfile == -1) {
-            this._showErrorDialog(_("No Media Profile was set."));
-            errorDialogState = ErrState.ON;
+            this._handleError(_("No Media Profile was set."));
         }
 
         if (!this.pipeline || this.pipeState == PipelineStates.STOPPED )
@@ -177,9 +164,14 @@ var Record = class Record {
         this.pipeState = PipelineStates.PLAYING;
 
         if (ret == Gst.StateChangeReturn.FAILURE) {
-            this._showErrorDialog(_("Unable to set the pipeline \n to the recording state."));
-            errorDialogState = ErrState.ON;
-            this._buildFileName.getTitle().delete_async(GLib.PRIORITY_DEFAULT, null, null);
+            this._handleError(_("Unable to set the pipeline \n to the recording state."));
+            this._buildFileName.getTitle().delete_async(GLib.PRIORITY_DEFAULT, null, (obj, res) => {
+                let done = obj.delete_finish(res);
+
+                if(!done) {
+                    log("file not deleted")
+                }
+            });
         } else {
             MainWindow.view.setVolume();
         }
@@ -209,7 +201,8 @@ var Record = class Record {
 	        this.recordBus.remove_signal_watch();
 
         this._updateTime();
-        errorDialogState = ErrState.OFF;
+        // Set errorDialogState to OFF so we show an error dialog
+        errorDialogState = ErrorDialog.ErrState.OFF;
     }
 
     _onMessageReceived(message) {
@@ -231,8 +224,7 @@ var Record = class Record {
                 if (description != null)
                     errorTwo = description;
 
-                this._showErrorDialog(errorOne, errorTwo);
-                errorDialogState = ErrState.ON;
+                this._handleError(errorOne, errorTwo);
                 break;
             }
 
@@ -288,8 +280,7 @@ var Record = class Record {
 
         case Gst.MessageType.ERROR:
             let errorMessage = message.parse_error();
-            this._showErrorDialog(errorMessage.toString());
-            errorDialogState = ErrState.ON;
+            this._handleError(errorMessage.toString());
             break;
         }
     }
@@ -321,49 +312,16 @@ var Record = class Record {
         return channels;
     }
 
-    _showErrorDialog(errorStrOne, errorStrTwo) {
-        if (errorDialogState == ErrState.OFF) {
-            let errorDialog = new Gtk.MessageDialog ({ modal: true,
-                                                       destroy_with_parent: true,
-                                                       buttons: Gtk.ButtonsType.OK,
-                                                       message_type: Gtk.MessageType.WARNING });
-            if (errorStrOne != null) {
-                errorDialog.set_property("text", errorStrOne);
-            }
-
-            if (errorStrTwo != null)
-                errorDialog.set_property("secondary-text", errorStrTwo);
-
-            errorDialog.set_transient_for(Gio.Application.get_default().get_active_window());
-            errorDialog.connect("response", () => {
-                errorDialog.destroy();
-                MainWindow.view.onRecordStopClicked();
-                this.onEndOfStream();
-            });
-            errorDialog.show();
-        }
-    }
-}
-
-const BuildFileName = class BuildFileName {
-    buildInitialFilename() {
-        var fileExtensionName = MainWindow.audioProfile.fileExtensionReturner();
-        var dir = Gio.Application.get_default().saveDir;
-        this.dateTime = GLib.DateTime.new_now_local();
-        var clipNumber = Listview.trackNumber + 1;
-        /* Translators: ""Clip %d"" is the default name assigned to a file created
-            by the application (for example, "Clip 1"). */
-        var clipName = _("Clip %d").format(clipNumber.toString());
-        this.clip = dir.get_child_for_display_name(clipName);
-        var file = this.clip.get_path();
-        return file;
-    }
-
-    getTitle() {
-        return this.clip;
-    }
-
-    getOrigin() {
-        return this.dateTime;
+    _handleError(ErrorMessage) {
+        MainWindow.view.onRecordStopClicked();
+        this.onEndOfStream();
+        let recordErrorDialog = new ErrorDialog.ErrorDialog();
+        recordErrorDialog.showErrorDialog(
+            ErrorDialog.SourceType.RECORD,
+            errorDialogState,
+            ErrorMessage
+        );
+        // Set errorDialogState to ON so we don't show multiple error dialogs
+        errorDialogState = ErrorDialog.ErrState.ON;
     }
 }

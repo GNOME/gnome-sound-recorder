@@ -28,6 +28,7 @@ const Gtk = imports.gi.Gtk;
 const Mainloop = imports.mainloop;
 
 const Application = imports.application;
+const ErrorDialog = imports.errorDialog;
 const MainWindow = imports.mainWindow;
 const Waveform = imports.waveform;
 
@@ -38,18 +39,12 @@ const PipelineStates = {
     NULL: 3
 };
 
-const ErrState = {
-    OFF: 0,
-    ON: 1
-}
-
 let errorDialogState;
-
 const _TENTH_SEC = 100000000;
 
 var Play = class Play {
     _playPipeline() {
-        errorDialogState = ErrState.OFF;
+        errorDialogState = ErrorDialog.ErrState.OFF;
         let uri = this._fileToPlay.get_uri();
         this.play = Gst.ElementFactory.make("playbin", "play");
         this.play.set_property("uri", uri);
@@ -82,8 +77,7 @@ var Play = class Play {
         this.playState = PipelineStates.PLAYING;
 
         if (this.ret == Gst.StateChangeReturn.FAILURE) {
-            this._showErrorDialog(_('Unable to play recording'));
-            errorDialogState = ErrState.ON;
+            this._handleError(_('Unable to play recording'));
         } else if (this.ret == Gst.StateChangeReturn.SUCCESS) {
             MainWindow.view.setVolume();
         }
@@ -121,11 +115,7 @@ var Play = class Play {
         if (MainWindow.wave != null)
             MainWindow.wave.endDrawing();
 
-        errorDialogState = ErrState.OFF;
-    }
-
-    onEndOfStream() {
-        MainWindow.view.onPlayStopClicked();
+        errorDialogState = ErrorDialog.ErrState.OFF;
     }
 
     _onMessageReceived(message) {
@@ -134,7 +124,7 @@ var Play = class Play {
         switch(msg) {
 
         case Gst.MessageType.EOS:
-            this.onEndOfStream();
+            MainWindow.view.onPlayStopClicked();
             break;
 
         case Gst.MessageType.WARNING:
@@ -144,8 +134,7 @@ var Play = class Play {
 
         case Gst.MessageType.ERROR:
             let errorMessage = message.parse_error()[0];
-            this._showErrorDialog(errorMessage.toString());
-            errorDialogState = ErrState.ON;
+            this._handleError(errorMessage.toString());
             break;
 
         case Gst.MessageType.ASYNC_DONE:
@@ -233,24 +222,16 @@ var Play = class Play {
         this._fileToPlay = MainWindow.view.loadPlay(this._selected);
     }
 
-    _showErrorDialog(errorStrOne, errorStrTwo) {
-        if (errorDialogState == ErrState.OFF) {
-            let errorDialog = new Gtk.MessageDialog ({ destroy_with_parent: true,
-                                                       buttons: Gtk.ButtonsType.OK,
-                                                       message_type: Gtk.MessageType.WARNING });
-
-            if (errorStrOne != null)
-                errorDialog.set_property('text', errorStrOne);
-
-            if (errorStrTwo != null)
-                errorDialog.set_property('secondary-text', errorStrTwo);
-
-            errorDialog.set_transient_for(Gio.Application.get_default().get_active_window());
-            errorDialog.connect ('response', () => {
-                errorDialog.destroy();
-                this.onEndOfStream();
-            });
-            errorDialog.show();
-        }
+    _handleError(errorMessage) {
+        /* TODO: Test this thoroughly to see if calling stopPlaying()
+            throws if there was a pipeline error */
+        let playErrorDialog = new ErrorDialog.ErrorDialog();
+        playErrorDialog.showErrorDialog(
+            ErrorDialog.SourceType.PLAY,
+            errorDialogState,
+            errorMessage
+        );
+        // Set errorDialogState to ON so we don't show multiple error dialogs
+        errorDialogState = ErrorDialog.ErrState.ON;
     }
 }
