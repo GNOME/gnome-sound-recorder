@@ -31,8 +31,6 @@ const Util = imports.util;
 var SIGINT = 2;
 var SIGTERM = 15;
 
-var application = null;
-
 var Application = GObject.registerClass(class Application extends Gtk.Application {
     _init() {
         super._init({ application_id: pkg.name });
@@ -68,7 +66,7 @@ var Application = GObject.registerClass(class Application extends Gtk.Applicatio
         Gst.init(null);
         this._initAppMenu();
         application = this;
-        settings = new Gio.Settings({ schema: 'org.gnome.SoundRecorder' });
+        this.settings = new Gio.Settings({ schema: 'org.gnome.SoundRecorder' });
         this.ensure_directory();
     }
 
@@ -104,47 +102,43 @@ var Application = GObject.registerClass(class Application extends Gtk.Applicatio
     }
 
     getPreferences() {
-        let set = settings.get_int("media-type-preset");
-        return set;
+        return this.settings.get_int("media-type-preset");
     }
 
     setPreferences(profileName) {
-        settings.set_int("media-type-preset", profileName);
+        this.settings.set_int("media-type-preset", profileName);
     }
 
     getChannelsPreferences() {
-        let set = settings.get_int("channel");
-        return set;
+        return this.settings.get_int("channel");
     }
 
     setChannelsPreferences(channel) {
-        settings.set_int("channel", channel);
+        this.settings.set_int("channel", channel);
     }
 
     getMicVolume() {
-        let micVolLevel = settings.get_double("mic-volume");
-        return micVolLevel;
+        return this.settings.get_double("mic-volume");
     }
 
     setMicVolume(level) {
-         settings.set_double("mic-volume", level);
+         this.settings.set_double("mic-volume", level);
     }
 
     getSpeakerVolume() {
-        let speakerVolLevel = settings.get_double("speaker-volume");
-        return speakerVolLevel;
+        return this.settings.get_double("speaker-volume");
     }
 
     setSpeakerVolume(level) {
-         settings.set_double("speaker-volume", level);
+         this.settings.set_double("speaker-volume", level);
     }
 
     getShowFileExtension() {
-        return settings.get_boolean("file-extension");
+        return this.settings.get_boolean("file-extension");
     }
 
     setShowFileExtension(show) {
-        settings.set_boolean("file-extension", show);
+        this.settings.set_boolean("file-extension", show);
     }
 
     _showAbout() {
