@@ -260,9 +260,8 @@ var Listview = class Listview {
             Gio.Application.get_default().ensure_directory();
             this._saveDir = Gio.Application.get_default().saveDir;
         }
-        if ((eventType == Gio.FileMonitorEvent.MOVED_OUT) ||
-            (eventType == Gio.FileMonitorEvent.CHANGES_DONE_HINT
-                && MainWindow.recordPipeline == MainWindow.RecordPipelineStates.STOPPED) || (eventType == Gio.FileMonitorEvent.RENAMED)) {
+        else if ((eventType == Gio.FileMonitorEvent.DELETED) ||
+            (eventType == Gio.FileMonitorEvent.CHANGES_DONE_HINT  && MainWindow.recordPipeline == MainWindow.RecordPipelineStates.STOPPED) || (eventType == Gio.FileMonitorEvent.RENAMED)) {
             stopVal = EnumeratorState.ACTIVE;
             allFilesInfo.length = 0;
             fileInfo.length = 0;

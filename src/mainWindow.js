@@ -662,7 +662,12 @@ const MainView = GObject.registerClass(class MainView extends Gtk.Stack {
 
     _deleteFile(selected) {
         let fileToDelete = this._getFileFromRow(selected);
-        fileToDelete.trash_async(GLib.PRIORITY_DEFAULT, null, null);
+        fileToDelete.delete_async(GLib.PRIORITY_DEFAULT, null, (obj, res) => {
+            let done = obj.delete_finish(res);
+            if(!done) {
+                log("file not deleted")
+            }
+        });
     }
 
     loadPlay(selected) {
