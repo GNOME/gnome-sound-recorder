@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2014 Richard Hughes <richard@hughsie.com> -->
 <component type="desktop-application">
-  <id>org.gnome.SoundRecorder</id>
+  <id>org.gnome.SoundRecorder.desktop</id>
   <name>Sound Recorder</name>
   <summary>A simple, modern sound recorder for GNOME</summary>
   <project_license>GPL-2.0+</project_license>
