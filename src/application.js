@@ -23,6 +23,7 @@ const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Gst = imports.gi.Gst;
 const Gtk = imports.gi.Gtk;
+const Gdk = imports.gi.Gdk;
 
 const MainWindow = imports.mainWindow;
 const Preferences = imports.preferences;
@@ -141,11 +142,11 @@ var Application = GObject.registerClass(class Application extends Gtk.Applicatio
 
     _loadStyleSheet() {
         let provider = new Gtk.CssProvider();
-        provider.load_from_resource('resource:///org/gnome/SoundRecorder/application.css');
+        provider.load_from_resource('/org/gnome/SoundRecorder/application.css');
         Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),
                                                  provider,
                                                  Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-    },
+    }
 
     _showAbout() {
         let aboutDialog = new Gtk.AboutDialog();

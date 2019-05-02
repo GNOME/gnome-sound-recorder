@@ -45,7 +45,7 @@ gnome.compile_resources(
   application_id + '.data',
   application_id + '.data.gresource.xml',
   gresource_bundle: true,
-  install_dir: sound_recoder_pkgdatadir,
+  install_dir: sound_recorder_pkgdatadir,
   install: true
 )
 

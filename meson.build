@@ -11,7 +11,7 @@ sound_recorder_prefix = get_option('prefix')
 sound_recorder_bindir = join_paths(sound_recorder_prefix, get_option('bindir'))
 sound_recorder_libdir = join_paths(sound_recorder_prefix, get_option('libdir'))
 sound_recorder_datadir = join_paths(sound_recorder_prefix, get_option('datadir'))
-sound_recoder_pkgdatadir = join_paths(sound_recorder_datadir, meson.project_name())
+sound_recorder_pkgdatadir = join_paths(sound_recorder_datadir, application_id)
 
 sound_recorder_schemadir = join_paths(sound_recorder_datadir, 'glib-2.0', 'schemas')
 
