@@ -29,6 +29,14 @@
       <image>https://git.gnome.org/browse/gnome-sound-recorder/plain/data/appdata/gsr-preferences.png</image>
     </screenshot>
   </screenshots>
+  <releases>
+    <release date="2019-05-27" version="3.32.1">
+      <description>
+        <p>Sound Recorder 3.32.1 is the latest stable version of GNOME Sound Recorder, and it contains all
+           the features introduced since our 3.30 release.</p>
+      </description>
+    </release>
+  </releases>
   <kudos>
     <kudo>HiDpiIcon</kudo>
     <kudo>ModernToolkit</kudo>
