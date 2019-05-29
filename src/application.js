@@ -84,6 +84,8 @@ var Application = GObject.registerClass(class Application extends Gtk.Applicatio
 
     vfunc_activate() {
         (this.window = new MainWindow.MainWindow({ application: this })).show();
+        if (pkg.name.endsWith('Devel'))
+            this.window.get_style_context().add_class("devel");
     }
 
     onWindowDestroy() {

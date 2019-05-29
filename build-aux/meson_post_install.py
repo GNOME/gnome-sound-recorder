@@ -7,11 +7,13 @@ import sys
 destdir = os.environ.get('DESTDIR', '')
 datadir = sys.argv[1]
 bindir = os.path.normpath(destdir + os.sep + sys.argv[2])
+pkgdatadir = sys.argv[3]
+application_id = sys.argv[4]
 
 if not os.path.exists(bindir):
   os.makedirs(bindir)
 
-src = os.path.join(datadir, 'gnome-sound-recorder', 'org.gnome.SoundRecorder')
+src = os.path.join(pkgdatadir, application_id)
 dest = os.path.join(bindir, 'gnome-sound-recorder')
 subprocess.call(['ln', '-s', '-f', src, dest])
 

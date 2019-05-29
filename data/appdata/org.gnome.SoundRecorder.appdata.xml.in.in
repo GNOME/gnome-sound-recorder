@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2014 Richard Hughes <richard@hughsie.com> -->
 <component type="desktop-application">
-  <id>org.gnome.SoundRecorder</id>
+  <id>@app-id@</id>
   <name>Sound Recorder</name>
   <summary>A simple, modern sound recorder for GNOME</summary>
   <project_license>GPL-2.0+</project_license>
@@ -33,7 +33,7 @@
     <kudo>HiDpiIcon</kudo>
     <kudo>ModernToolkit</kudo>
   </kudos>
-  <launchable type="destkop-id">org.gnome.SoundRecorder</launchable>
+  <launchable type="destkop-id">@app-id@.desktop</launchable>
   <url type="homepage">https://wiki.gnome.org/Apps/SoundRecorder</url>
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-sound-recorder/issues</url>
   <url type="donation">https://www.gnome.org/friends/</url>
