@@ -3,7 +3,7 @@ Type=Application
 Name=Sound Recorder
 Comment=Record sound via the microphone and play it back
 # Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-Icon=org.gnome.SoundRecorder
+Icon=@app-id@
 Categories=GNOME;GTK;Audio;AudioVideo;
 # Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 Keywords=Audio;Application;Record;

@@ -13,9 +13,15 @@ configure_file(
   configuration: app_conf
 )
 
+source_res_conf = configuration_data()
+source_res_conf.set('profile', profile)
 gnome.compile_resources(
   application_id + '.src',
-  'org.gnome.SoundRecorder.src.gresource.xml',
+  configure_file(
+  	input: 'org.gnome.SoundRecorder.src.gresource.xml.in',
+  	output: '@BASENAME@',
+  	configuration: source_res_conf
+  ),
   source_dir: '.',
   gresource_bundle: true,
   install: true,

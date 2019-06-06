@@ -1,18 +1,26 @@
 icon_dir = join_paths('icons', 'hicolor', 'scalable', 'apps')
 install_data(
-  join_paths(icon_dir, '@0@.svg'.format(application_id)),
+  join_paths(icon_dir, 'org.gnome.SoundRecorder.svg'),
+  rename: '@0@.svg'.format(application_id),
   install_dir: join_paths(sound_recorder_datadir, icon_dir)
 )
 
 icon_dir = join_paths('icons', 'hicolor', 'symbolic', 'apps')
 install_data(
-  join_paths(icon_dir, '@0@-symbolic.svg'.format(application_id)),
+  join_paths(icon_dir, 'org.gnome.SoundRecorder-symbolic.svg'),
+  rename: '@0@-symbolic.svg'.format(application_id),
   install_dir: join_paths(sound_recorder_datadir, icon_dir)
 )
 
+desktop_conf = configuration_data()
+desktop_conf.set('app-id', application_id)
 desktop_file = i18n.merge_file(
   'desktop',
-  input: '@0@.desktop.in'.format(application_id),
+  input: configure_file(
+  	input: 'org.gnome.SoundRecorder.desktop.in.in',
+  	output: '@BASENAME@',
+  	configuration: desktop_conf
+  ),
   output: '@0@.desktop'.format(application_id),
   install: true,
   install_dir: join_paths(sound_recorder_datadir, 'applications'),
@@ -31,10 +39,9 @@ if desktop_file_validate.found()
 endif
 
 gsettings_conf = configuration_data()
-gsettings_conf.set('GETTEXT_PACKAGE', meson.project_name ())
-gsettings_conf.set('APP_ID', application_id)
+gsettings_conf.set('app-id', application_id)
 configure_file(
-  input: '@0@.gschema.xml.in'.format(application_id),
+  input: 'org.gnome.SoundRecorder.gschema.xml.in',
   output: '@0@.gschema.xml'.format(application_id),
   configuration: gsettings_conf,
   install: true,
@@ -43,7 +50,7 @@ configure_file(
 
 gnome.compile_resources(
   application_id + '.data',
-  application_id + '.data.gresource.xml',
+  'org.gnome.SoundRecorder.data.gresource.xml',
   gresource_bundle: true,
   install_dir: sound_recorder_pkgdatadir,
   install: true

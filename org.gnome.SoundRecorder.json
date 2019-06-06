@@ -1,5 +1,5 @@
 {
-    "app-id" : "org.gnome.SoundRecorder",
+    "app-id" : "org.gnome.SoundRecorderDevel",
     "runtime" : "org.gnome.Platform",
     "runtime-version" : "master",
     "sdk" : "org.gnome.Sdk",
@@ -23,6 +23,9 @@
         {
             "name" : "gnome-sound-recorder",
             "buildsystem": "meson",
+            "config-opts": [
+            	"-Dprofile=development"
+            ],
             "sources" : [
                 {
                     "type" : "git",

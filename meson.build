@@ -2,10 +2,26 @@ project(
   'gnome-sound-recorder',
   version: '3.33.0',
   license: 'GPL2+',
-  meson_version: '>= 0.46.0'
+  meson_version: '>= 0.50.0'
 )
 
-application_id = 'org.gnome.SoundRecorder'
+if get_option('profile') == 'development'
+  profile = 'Devel'
+  name_suffix = ' (Development)'
+  vcs_tag = run_command('git', 'rev-parse', '--short', 'HEAD').stdout().strip()
+  if vcs_tag == ''
+    version_suffix = '-devel'
+  else
+    version_suffix = '-@0@'.format (vcs_tag)
+  endif
+else
+  profile = ''
+  name_suffix = ''
+  version_suffix = ''
+endif
+application_id = 'org.gnome.SoundRecorder@0@'.format(profile)
+
+
 
 sound_recorder_prefix = get_option('prefix')
 sound_recorder_bindir = join_paths(sound_recorder_prefix, get_option('bindir'))
@@ -36,5 +52,7 @@ subdir('po')
 meson.add_install_script(
   join_paths('build-aux', 'meson_post_install.py'),
   sound_recorder_datadir,
-  sound_recorder_bindir
+  sound_recorder_bindir,
+  sound_recorder_pkgdatadir,
+  application_id
 )
