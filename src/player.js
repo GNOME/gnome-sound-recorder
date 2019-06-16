@@ -32,6 +32,7 @@ const Mainloop = imports.mainloop;
 const Application = imports.application;
 const MainWindow = imports.mainWindow;
 const Waveform = imports.waveform;
+const utils = imports.utils;
 
 const PipelineStates = {
     PLAYING: 0,
@@ -51,7 +52,7 @@ const _TENTH_SEC = 100000000;
 
 var Player = GObject.registerClass({
     Signals: {
-      'timer-updated': {
+      'time-updated': {
           flags: GObject.SignalFlags.RUN_FIRST,
           param_types: [ GObject.TYPE_INT ]
       }
@@ -62,11 +63,11 @@ var Player = GObject.registerClass({
     _init() {
       super._init();
       this.playState = PipelineStates.STOPPED;
-      this.play = Gst.ElementFactory.make("playbin", "play");
+      this.playbin = Gst.ElementFactory.make("playbin", "play");
       this.sink = Gst.ElementFactory.make("pulsesink", "sink");
-      this.play.set_property("audio-sink", this.sink);
-      this.clock = this.play.get_clock();
-      this.playBus = this.play.get_bus();
+      this.playbin.set_property("audio-sink", this.sink);
+      this.clock = this.playbin.get_clock();
+      this.playBus = this.playbin.get_bus();
       this._asset = null;
     }
     _playPipeline() {
@@ -80,12 +81,13 @@ var Player = GObject.registerClass({
     }
 
     get duration() {
-      return this.play.query_duration(Gst.Format.TIME)
+      return this.playbin.query_duration(Gst.Format.TIME)
 
     }
 
-    setUri(uri) {
-        this.play.set_property("uri", uri);
+    play(recording) {
+        this.playbin.set_property("uri", recording.uri);
+        this.startPlaying();
     }
 
 
@@ -98,11 +100,11 @@ var Player = GObject.registerClass({
 
         if (this.playState == PipelineStates.PAUSED) {
             this.updatePosition();
-            this.play.set_base_time(this.clock.get_time());
-            this.baseTime = this.play.get_base_time() - this.runTime;
+            this.playbin.set_base_time(this.clock.get_time());
+            this.baseTime = this.playbin.get_base_time() - this.runTime;
         }
 
-        this.ret = this.play.set_state(Gst.State.PLAYING);
+        this.ret = this.playbin.set_state(Gst.State.PLAYING);
         this.playState = PipelineStates.PLAYING;
 
         if (this.ret == Gst.StateChangeReturn.FAILURE) {
@@ -116,7 +118,7 @@ var Player = GObject.registerClass({
     }
 
     pausePlaying() {
-        this.play.set_state(Gst.State.PAUSED);
+        this.playbin.set_state(Gst.State.PAUSED);
         this.playState = PipelineStates.PAUSED;
 
         if (this.timeout) {
@@ -132,7 +134,7 @@ var Player = GObject.registerClass({
     }
 
     onEnd() {
-        this.play.set_state(Gst.State.NULL);
+        this.playbin.set_state(Gst.State.NULL);
         this.playState = PipelineStates.STOPPED;
         this.playBus.remove_signal_watch();
         this._updateTime();
@@ -176,7 +178,7 @@ var Player = GObject.registerClass({
 
         case Gst.MessageType.ASYNC_DONE:
             if (this.sought) {
-                this.play.set_state(this._lastState);
+                this.playbin.set_state(this._lastState);
                 MainWindow.view.setProgressScaleSensitive();
             }
             this.updatePosition();
@@ -188,7 +190,7 @@ var Player = GObject.registerClass({
 
         case Gst.MessageType.NEW_CLOCK:
             if (this.playState == PipelineStates.PAUSED) {
-                this.clock = this.play.get_clock();
+                this.clock = this.playbin.get_clock();
                 this.startPlaying();
             }
             break;
@@ -200,44 +202,17 @@ var Player = GObject.registerClass({
     }
 
     _updateTime() {
-        let time = this.play.query_position(Gst.Format.TIME)[1]/Gst.SECOND;
-        this.trackDuration = this.play.query_duration(Gst.Format.TIME)[1];
-        this.trackDurationSecs = this.trackDuration/Gst.SECOND;
+        let time = this.playbin.query_position(Gst.Format.TIME)[1]/Gst.SECOND;
+        let trackDuration = this.playbin.query_duration(Gst.Format.TIME)[1];
 
-        if (time >= 0 && this.playState != PipelineStates.STOPPED) {
-            this.emit("timer-updated", time);
-        } else if (time >= 0 && this.playState == PipelineStates.STOPPED) {
-            this.emit("timer-updated", 0);
-        }
-
-        let absoluteTime = 0;
-
-        if  (this.clock == null) {
-            this.clock = this.play.get_clock();
-        }
-        try {
-            absoluteTime = this.clock.get_time();
-        } catch(error) {
-            // no-op
-        }
-
-        if (this.baseTime == 0)
-            this.baseTime = absoluteTime;
-
-        this.runTime = absoluteTime- this.baseTime;
-        let approxTime = Math.round(this.runTime/_TENTH_SEC);
-
-        if (MainWindow.wave != null) {
-            MainWindow.wave._drawEvent(approxTime);
-        }
-
+        this.emit("time-updated", time);
         return true;
     }
 
     queryPosition() {
         let position = 0;
         while (position == 0) {
-            position = this.play.query_position(Gst.Format.TIME)[1]/Gst.SECOND;
+            position = this.playbin.query_position(Gst.Format.TIME)[1]/Gst.SECOND;
         }
 
         return position;
@@ -251,7 +226,7 @@ var Player = GObject.registerClass({
     }
 
     setVolume(value) {
-        this.play.set_volume(GstAudio.StreamVolumeFormat.CUBIC, value);
+        this.playbin.set_volume(GstAudio.StreamVolumeFormat.CUBIC, value);
     }
 
     passSelected(selected) {
@@ -279,5 +254,39 @@ var Player = GObject.registerClass({
             errorDialog.show();
         }
     }
+  }
+);
+
+
+var PlayerWidget = GObject.registerClass({
+    Template: 'resource:///org/gnome/SoundRecorder/player.ui',
+    Signals: {
+    },
+    InternalChildren: [
+      'clip_name_label',
+      'clip_duration_label',
+      'player_scale',
+      'player_adjustement'
+    ],
+  },
+  class PlayerWidget extends Gtk.Box {
+    _init() {
+      super._init();
+
+      this.show_all();
+    }
+
+    setPlaying(recording) {
+
+      this._player_adjustement.configure(0, 0, recording.duration, 1, 10, 0);
+      this._clip_name_label.set_text(recording.fileName);
+
+    }
+
+    updateTime(time) {
+      this._clip_duration_label.set_text(utils.getDisplayDuration(time));
+      this._player_adjustement.set_value(time);
+    }
+
   }
 );

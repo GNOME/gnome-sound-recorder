@@ -36,7 +36,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="pause_button">
+              <object class="GtkButton" id="stop_button">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -48,12 +48,12 @@
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>
                     <property name="valign">center</property>
-                    <property name="icon_name">media-playback-pause-symbolic</property>
+                    <property name="icon_name">media-playback-stop-symbolic</property>
                   </object>
                 </child>
               </object>
               <packing>
-                <property name="name">pause</property>
+                <property name="name">stop</property>
                 <property name="position">1</property>
               </packing>
             </child>

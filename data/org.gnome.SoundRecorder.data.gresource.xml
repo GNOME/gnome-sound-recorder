@@ -2,6 +2,7 @@
 <gresources>
   <gresource prefix="/org/gnome/SoundRecorder">
     <file>application.css</file>
+    <file compressed="true" preprocess="xml-stripblanks" alias="player.ui">ui/player.ui</file>
     <file compressed="true" preprocess="xml-stripblanks" alias="main_window.ui">ui/main_window.ui</file>
     <file compressed="true" preprocess="xml-stripblanks" alias="recording_row.ui">ui/recording_row.ui</file>
     <file compressed="true" preprocess="xml-stripblanks" alias="recording_waveform_row.ui">ui/recording_waveform_row.ui</file>

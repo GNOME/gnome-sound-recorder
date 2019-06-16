@@ -40,7 +40,8 @@ const NewRecording = imports.recording.NewRecording;
 const RecordingRow = imports.recording.RecordingRow;
 
 const Preferences = imports.preferences;
-
+const Player = imports.player.Player;
+const PlayerWidget = imports.player.PlayerWidget;
 const Waveform = imports.waveform;
 
 let activeProfile = null;
@@ -114,6 +115,7 @@ var MainWindow = GObject.registerClass({
         'record_label',
         'records_listbox',
         'new_recording_revealer',
+        'player_revealer',
       ]
   },
   class MainWindow extends Gtk.ApplicationWindow {
@@ -121,8 +123,8 @@ var MainWindow = GObject.registerClass({
         super._init();
         this._addAppMenu();
         this._recordingsManager = new RecordingsManager();
+        this._player = new Player();
         this._initWidgets();
-
         this.show_all();
     }
 
@@ -143,6 +145,15 @@ var MainWindow = GObject.registerClass({
           this._newRecordingWidget.updateRecordTime(recordTime);
         });
         this._new_recording_revealer.add(this._newRecordingWidget);
+
+
+        this._playerWidget = new PlayerWidget();
+        this._player_revealer.add(this._playerWidget);
+        this._player_revealer.set_reveal_child(false);
+
+        this._player.connect("time-updated", (obj, time) => {
+            this._playerWidget.updateTime(time);
+        });
     }
 
 
@@ -188,6 +199,15 @@ var MainWindow = GObject.registerClass({
     _onRecordingAdded(recording) {
         this._main_stack.set_visible_child_name('records_view');
         let recordingRow = new RecordingRow(recording);
+        recordingRow.connect("play", (obj, recording) => {
+            this._playerWidget.setPlaying(recording);
+            this._player.play(recording);
+            this._player_revealer.set_reveal_child(true);
+        });
+        recordingRow.connect("stop", () => {
+          this._player.stopPlaying();
+          this._player_revealer.set_reveal_child(false);
+        });
         this._records_listbox.add(recordingRow);
         this._records_listbox.show_all();
     }
