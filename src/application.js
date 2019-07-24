@@ -38,6 +38,21 @@ var Application = GObject.registerClass(class Application extends Gtk.Applicatio
     _init() {
         super._init({ application_id: pkg.name });
         GLib.set_application_name(_("SoundRecorder"));
+        GLib.set_prgname("gnome-sound-recorder");
+
+        this.add_main_option('version', 'v'.charCodeAt(0), GLib.OptionFlags.NONE, GLib.OptionArg.NONE,
+                             "Print version information and exit", null);
+
+        this.connect('handle-local-options', (app, options) => {
+            if (options.contains('version')) {
+                print(pkg.version);
+                /* quit the invoked process after printing the version number
+                 * leaving the running instance unaffected
+                 */
+                return 0;
+            }
+            return -1;
+        });
     }
 
     _initAppMenu() {
