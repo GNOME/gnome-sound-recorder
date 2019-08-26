@@ -402,6 +402,7 @@ const MainView = GObject.registerClass(class MainView extends Gtk.Stack {
                 this.playImage.set_from_icon_name('media-playback-start-symbolic', Gtk.IconSize.BUTTON);
                 this._playListButton = new Gtk.Button({ name: "PlayButton",
                                                         hexpand: false,
+                                                        valign: Gtk.Align.CENTER,
                                                         vexpand: true });
                 this._playListButton.set_image(this.playImage);
                 this._playListButton.set_tooltip_text(_("Play"));
@@ -505,6 +506,7 @@ const MainView = GObject.registerClass(class MainView extends Gtk.Stack {
                 this._info = new Gtk.Button({ name: "InfoButton",
                                               hexpand: false,
                                               vexpand: true,
+                                              valign: Gtk.Align.CENTER,
                                               margin_end: 2 });
                 this._info.image = Gtk.Image.new_from_icon_name("dialog-information-symbolic", Gtk.IconSize.BUTTON);
                 this._info.connect("clicked", (button) => {
@@ -522,6 +524,7 @@ const MainView = GObject.registerClass(class MainView extends Gtk.Stack {
                 // delete button
                 this._delete = new Gtk.Button({ name: "DeleteButton",
                                                 hexpand: false,
+                                                valign: Gtk.Align.CENTER,
                                                 margin_start: 2, });
                 this._delete.image = Gtk.Image.new_from_icon_name("user-trash-symbolic", Gtk.IconSize.BUTTON);
                 this._delete.connect("clicked", (button) => {
