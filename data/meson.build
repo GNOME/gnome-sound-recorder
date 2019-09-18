@@ -48,7 +48,7 @@ configure_file(
   install_dir: sound_recorder_schemadir
 )
 
-gnome.compile_resources(
+data_res = gnome.compile_resources(
   application_id + '.data',
   'org.gnome.SoundRecorder.data.gresource.xml',
   gresource_bundle: true,
