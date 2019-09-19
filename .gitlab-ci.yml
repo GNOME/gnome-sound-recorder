@@ -22,3 +22,6 @@ review:
 stop_review:
     stage: deploy
     extends: '.stop_review'
+
+nightly:
+  extends: '.publish_nightly'
