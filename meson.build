@@ -39,6 +39,8 @@ dependency('gio-2.0', version: '>= 2.43.4')
 dependency('glib-2.0', version: '>= 2.39.3')
 dependency('gtk+-3.0', version: '>= 3.13.2')
 dependency('gobject-introspection-1.0', version: '>= 1.31.6')
+dependency('gstreamer-1.0')
+dependency('gstreamer-pbutils-1.0')
 
 gnome = import('gnome')
 i18n = import('i18n')
