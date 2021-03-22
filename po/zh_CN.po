@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: gnome-sound-recorder master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-sound-recorder/"
 "issues\n"
-"POT-Creation-Date: 2020-08-24 19:01+0000\n"
-"PO-Revision-Date: 2020-08-30 17:36-0400\n"
+"POT-Creation-Date: 2020-11-24 14:33+0000\n"
+"PO-Revision-Date: 2021-03-22 09:43-0400\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: data/appdata/org.gnome.SoundRecorder.metainfo.xml.in.in:5
 #: data/org.gnome.SoundRecorder.desktop.in.in:4 data/ui/window.ui:28
@@ -57,7 +57,7 @@ msgstr "支持的音频格式："
 msgid "Ogg Vorbis, Opus, FLAC, MP3 and MOV"
 msgstr "Ogg Vorbis、Opus、FLAC、MP3 和 MOV"
 
-#: data/appdata/org.gnome.SoundRecorder.metainfo.xml.in.in:47
+#: data/appdata/org.gnome.SoundRecorder.metainfo.xml.in.in:69
 msgid "The GNOME Project"
 msgstr "GNOME 项目"
 
@@ -70,27 +70,27 @@ msgstr "通过麦克风录制声音并播放"
 msgid "Audio;Application;Record;"
 msgstr "Audio;Application;Record;音频;应用程序;录音;"
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:16
+#: data/org.gnome.SoundRecorder.gschema.xml.in:15
 msgid "Window size"
 msgstr "窗口大小"
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:17
+#: data/org.gnome.SoundRecorder.gschema.xml.in:16
 msgid "Window size (width and height)."
 msgstr "窗口大小（宽度与高度）。"
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:21
+#: data/org.gnome.SoundRecorder.gschema.xml.in:20
 msgid "Window position"
 msgstr "窗口位置"
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:22
+#: data/org.gnome.SoundRecorder.gschema.xml.in:21
 msgid "Window position (x and y)."
 msgstr "窗口位置（水平和竖直）。"
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:26
+#: data/org.gnome.SoundRecorder.gschema.xml.in:25
 msgid "Maps media types to audio encoder preset names."
 msgstr "将媒体类型对应到音频编码器预设名称。"
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:27
+#: data/org.gnome.SoundRecorder.gschema.xml.in:26
 msgid ""
 "Maps media types to audio encoder preset names. If there is no mapping set, "
 "the default encoder settings will be used."
@@ -98,126 +98,191 @@ msgstr ""
 "将媒体类型对应到音频编码器的预设名称。如果某个媒体类型无对应，则将使用默认的"
 "编码器设置。"
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:31
+#: data/org.gnome.SoundRecorder.gschema.xml.in:30
 msgid "Available channels"
 msgstr "可用声道"
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:32
+#: data/org.gnome.SoundRecorder.gschema.xml.in:31
 msgid ""
 "Maps available channels. If there is not no mapping set, stereo channel will "
 "be used by default."
 msgstr "映射可用声道。如果未设置任何映射，将默认使用立体声声道。"
 
-#: data/ui/row.ui:161 data/ui/row.ui:435
-msgid "Export"
-msgstr "导出"
+#: data/ui/help-overlay.ui:15
+msgctxt "shortcut window"
+msgid "General"
+msgstr "常规"
 
-#: data/ui/row.ui:185 data/ui/row.ui:431
-msgid "Rename"
-msgstr "重命名"
-
-#: data/ui/row.ui:237
-msgid "Save"
-msgstr "保存"
-
-#: data/ui/row.ui:273
-msgid "Delete"
-msgstr "删除"
-
-#: data/ui/row.ui:307
-msgid "Seek 10s Backward"
-msgstr "后退 10 秒"
-
-#: data/ui/row.ui:334
-msgid "Play"
-msgstr "播放"
-
-#: data/ui/row.ui:359
-msgid "Pause"
-msgstr "暂停"
-
-#: data/ui/row.ui:390
-msgid "Seek 10s Forward"
-msgstr "前进 10 秒"
-
-#: data/ui/window.ui:63
+#: data/ui/help-overlay.ui:20
+msgctxt "shortcut window"
 msgid "Record"
 msgstr "录音"
 
-#: data/ui/window.ui:144
-msgid "Add Recordings"
-msgstr "添加录音"
-
-#: data/ui/window.ui:156
-msgid "Use the <b>Record</b> button to make sound recordings"
-msgstr "使用 <b>录音</b> 按钮创建录音"
-
-#: data/ui/window.ui:253
-msgid "Resume Recording"
-msgstr "继续录音"
-
-#: data/ui/window.ui:277
-msgid "Pause Recording"
-msgstr "暂停录音"
-
-#: data/ui/window.ui:307
+#: data/ui/help-overlay.ui:27
+msgctxt "shortcut window"
 msgid "Stop Recording"
 msgstr "停止录音"
 
-#: data/ui/window.ui:334
-msgid "Cancel Recording"
-msgstr "取消录音"
+#: data/ui/help-overlay.ui:34
+msgctxt "shortcut window"
+msgid "Play / Pause / Resume"
+msgstr "播放 / 暂停 / 继续"
 
-#: data/ui/window.ui:391
+#: data/ui/help-overlay.ui:42
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "删除"
+
+#: data/ui/help-overlay.ui:49
+msgctxt "shortcut window"
+msgid "Open menu"
+msgstr "打开菜单"
+
+#: data/ui/help-overlay.ui:56
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "键盘快捷键"
+
+#: data/ui/help-overlay.ui:63
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "退出"
+
+#: data/ui/help-overlay.ui:71
+msgctxt "shortcut window"
+msgid "Recording"
+msgstr "录音"
+
+#: data/ui/help-overlay.ui:76
+msgctxt "shortcut window"
+msgid "Seek Backward"
+msgstr "后退"
+
+#: data/ui/help-overlay.ui:83
+msgctxt "shortcut window"
+msgid "Seek Forward"
+msgstr "前进"
+
+#: data/ui/help-overlay.ui:90
+msgctxt "shortcut window"
+msgid "Rename"
+msgstr "重命名"
+
+#: data/ui/help-overlay.ui:97
+msgctxt "shortcut window"
+msgid "Export"
+msgstr "导出"
+
+#: data/ui/recorder.ui:72
+msgid "Resume Recording"
+msgstr "继续录音"
+
+#: data/ui/recorder.ui:96
+msgid "Pause Recording"
+msgstr "暂停录音"
+
+#: data/ui/recorder.ui:128
+msgid "Stop Recording"
+msgstr "停止录音"
+
+#: data/ui/recorder.ui:157
+msgid "Delete Recording"
+msgstr "删除录音"
+
+#: data/ui/row.ui:165 data/ui/row.ui:444
+msgid "Export"
+msgstr "导出"
+
+#: data/ui/row.ui:189 data/ui/row.ui:440
+msgid "Rename"
+msgstr "重命名"
+
+#: data/ui/row.ui:241
+msgid "Save"
+msgstr "保存"
+
+#: data/ui/row.ui:278 src/recorderWidget.js:100
+msgid "Delete"
+msgstr "删除"
+
+#: data/ui/row.ui:313
+msgid "Seek 10s Backward"
+msgstr "后退 10 秒"
+
+#: data/ui/row.ui:341
+msgid "Play"
+msgstr "播放"
+
+#: data/ui/row.ui:367
+msgid "Pause"
+msgstr "暂停"
+
+#: data/ui/row.ui:399
+msgid "Seek 10s Forward"
+msgstr "前进 10 秒"
+
+#: data/ui/window.ui:60
+msgid "Record"
+msgstr "录音"
+
+#: data/ui/window.ui:149
+msgid "Add Recordings"
+msgstr "添加录音"
+
+#: data/ui/window.ui:166
+msgid "Use the <b>Record</b> button to make sound recordings"
+msgstr "使用 <b>录音</b> 按钮创建录音"
+
+#: data/ui/window.ui:237
 msgid "Undo"
 msgstr "撤消"
 
-#: data/ui/window.ui:401
+#: data/ui/window.ui:254
 msgid "Close"
 msgstr "关闭"
 
-#: data/ui/window.ui:426
+#: data/ui/window.ui:290
 msgid "Preferred Format"
 msgstr "首选格式"
 
-#: data/ui/window.ui:428
+#: data/ui/window.ui:292
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: data/ui/window.ui:433
+#: data/ui/window.ui:297
 msgid "Opus"
 msgstr "Opus"
 
-#: data/ui/window.ui:438
+#: data/ui/window.ui:302
 msgid "FLAC"
 msgstr "FLAC"
 
-#: data/ui/window.ui:443
+#: data/ui/window.ui:307
 msgid "MP3"
 msgstr "MP3"
 
-#: data/ui/window.ui:448
-msgid "M4A"
-msgstr "M4A"
-
-#: data/ui/window.ui:454
+#: data/ui/window.ui:313
 msgid "Audio Channel"
 msgstr "音频通道"
 
-#: data/ui/window.ui:456
+#: data/ui/window.ui:315
 msgid "Stereo"
 msgstr "立体声"
 
-#: data/ui/window.ui:461
+#: data/ui/window.ui:320
 msgid "Mono"
 msgstr "单声道"
 
-#: data/ui/window.ui:469
+#: data/ui/window.ui:327
+msgid "_Keyboard Shortcuts"
+msgstr "键盘快捷键(_K)"
+
+#: data/ui/window.ui:332
 msgid "About Sound Recorder"
 msgstr "关于录音机"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
-#: src/application.js:167
+#: src/application.js:130
 msgid "translator-credits"
 msgstr ""
 "tuhaihe <1132321739qq@gmail.com>, 2013.\n"
@@ -228,86 +293,104 @@ msgstr ""
 "Merrick Zhang <anphorea@gmail.com>, 2020.\n"
 "Weiyi Xu <xuweiyi0923@gmail.com>, 2020."
 
-#: src/application.js:169
+#: src/application.js:132
 msgid "A Sound Recording Application for GNOME"
 msgstr "GNOME 平台的一款声音录制程序"
 
 #. Translators: ""Recording %d"" is the default name assigned to a file created
 #. by the application (for example, "Recording 1").
-#: src/recorder.js:108
+#: src/recorder.js:113
 #, javascript-format
 msgid "Recording %d"
 msgstr "录音 %d"
 
+#: src/recorderWidget.js:94
+msgid "Delete recording?"
+msgstr "删除录音？"
+
+#: src/recorderWidget.js:95
+msgid "This recording will not be saved."
+msgstr "该录音不会被保存。"
+
+#: src/recorderWidget.js:99
+msgid "Resume"
+msgstr "继续"
+
 #. Necessary code to move old recordings into the new location for few releases
 #. FIXME: Remove by 3.40/3.42
-#: src/recordingList.js:41
+#: src/recordingList.js:42
 msgid "Recordings"
 msgstr "录音"
 
 #. Translators: ""%s (Old)"" is the new name assigned to a file moved from
 #. the old recordings location
-#: src/recordingList.js:57
+#: src/recordingList.js:59
 #, javascript-format
 msgid "%s (Old)"
 msgstr "%s (Old)"
 
-#: src/row.js:67
+#: src/row.js:71
 msgid "Export Recording"
 msgstr "导出录音"
 
-#: src/row.js:67
+#: src/row.js:71
 msgid "_Export"
 msgstr "导出(_E)"
 
-#: src/row.js:67
+#: src/row.js:71
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: src/utils.js:45
+#: src/utils.js:48
 msgid "Yesterday"
 msgstr "昨天"
 
-#: src/utils.js:47
+#: src/utils.js:50
 #, javascript-format
 msgid "%d day ago"
 msgid_plural "%d days ago"
 msgstr[0] "%d 天前"
 
-#: src/utils.js:49
+#: src/utils.js:52
 msgid "Last week"
 msgstr "上周"
 
-#: src/utils.js:51
+#: src/utils.js:54
 #, javascript-format
 msgid "%d week ago"
 msgid_plural "%d weeks ago"
 msgstr[0] "%d 周前"
 
-#: src/utils.js:53
+#: src/utils.js:56
 msgid "Last month"
 msgstr "上个月"
 
-#: src/utils.js:55
+#: src/utils.js:58
 #, javascript-format
 msgid "%d month ago"
 msgid_plural "%d months ago"
 msgstr[0] "%d 个月前"
 
-#: src/utils.js:57
+#: src/utils.js:60
 msgid "Last year"
 msgstr "去年"
 
-#: src/utils.js:59
+#: src/utils.js:62
 #, javascript-format
 msgid "%d year ago"
 msgid_plural "%d years ago"
 msgstr[0] "%d 年前"
 
-#: src/window.js:85
+#: src/window.js:71
 #, javascript-format
 msgid "\"%s\" deleted"
 msgstr "\"%s\"已删除"
+
+#~ msgid "Cancel Recording"
+#~ msgstr "取消录音"
+
+#~ msgid "M4A"
+#~ msgstr "M4A"
 
 #~ msgid "Sound Recorder started"
 #~ msgstr "录音机已启动"
@@ -421,9 +504,6 @@ msgstr "\"%s\"已删除"
 
 #~ msgid "About"
 #~ msgstr "关于"
-
-#~ msgid "Quit"
-#~ msgstr "退出"
 
 #~ msgid "%Y-%m-%d %H:%M:%S"
 #~ msgstr "%Y-%m-%d %H:%M:%S"
