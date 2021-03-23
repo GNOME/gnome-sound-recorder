@@ -35,7 +35,7 @@
   </kudos>
   <content_rating type="oars-1.0" />
   <releases>
-    <release version="40.beta" date="2021-02-14" type="development" />
+    <release version="40.0" date="2021-03-23" />
     <release version="3.38.1" date="2021-01-25">
       <description>
         <p>Bugfix release</p>
