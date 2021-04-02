@@ -4,15 +4,15 @@
 #
 # Erwin Poeze <donnut@outlook.com>, 2013.
 # Hannie Dumoleyn <hannie@ubuntu-nl.org>, 2014, 2016.
-# Nathan Follens <nthn@unseen.is>, 2015-2020.
+# Nathan Follens <nthn@unseen.is>, 2015-2021.
 # Frank Geerlings <frank@frankgeerlings.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music 3.10\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-sound-recorder/"
 "issues\n"
-"POT-Creation-Date: 2020-08-16 15:08+0000\n"
-"PO-Revision-Date: 2020-08-25 22:55+0200\n"
+"POT-Creation-Date: 2021-02-14 20:23+0000\n"
+"PO-Revision-Date: 2021-04-02 12:49+0200\n"
 "Last-Translator: Nathan Follens <nthn@unseen.is>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: data/appdata/org.gnome.SoundRecorder.metainfo.xml.in.in:5
 #: data/org.gnome.SoundRecorder.desktop.in.in:4 data/ui/window.ui:28
@@ -58,7 +58,7 @@ msgstr "Ondersteunde audioformaten:"
 msgid "Ogg Vorbis, Opus, FLAC, MP3 and MOV"
 msgstr "Ogg Vorbis, Opus, FLAC, MP3 en MOV"
 
-#: data/appdata/org.gnome.SoundRecorder.metainfo.xml.in.in:47
+#: data/appdata/org.gnome.SoundRecorder.metainfo.xml.in.in:94
 msgid "The GNOME Project"
 msgstr "Het Gnome-project"
 
@@ -71,27 +71,27 @@ msgstr "Geluid via de microfoon opnemen en het afspelen"
 msgid "Audio;Application;Record;"
 msgstr "Audio;Application;Toepassing;Record;Opnemen;Geluidsopname;Memo;"
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:16
+#: data/org.gnome.SoundRecorder.gschema.xml.in:15
 msgid "Window size"
 msgstr "Venstergrootte"
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:17
+#: data/org.gnome.SoundRecorder.gschema.xml.in:16
 msgid "Window size (width and height)."
 msgstr "Venstergrootte (breedte en hoogte)."
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:21
+#: data/org.gnome.SoundRecorder.gschema.xml.in:20
 msgid "Window position"
 msgstr "Vensterpositie"
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:22
+#: data/org.gnome.SoundRecorder.gschema.xml.in:21
 msgid "Window position (x and y)."
 msgstr "Vensterpositie (x en y)."
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:26
+#: data/org.gnome.SoundRecorder.gschema.xml.in:25
 msgid "Maps media types to audio encoder preset names."
 msgstr "Verbindt mediatypes met vooraf ingestelde namen van audio-codeerder."
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:27
+#: data/org.gnome.SoundRecorder.gschema.xml.in:26
 msgid ""
 "Maps media types to audio encoder preset names. If there is no mapping set, "
 "the default encoder settings will be used."
@@ -100,11 +100,11 @@ msgstr ""
 "mediatype niet verbonden kan worden, zullen de standaard codeerinstellingen "
 "worden gebruikt."
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:31
+#: data/org.gnome.SoundRecorder.gschema.xml.in:30
 msgid "Available channels"
 msgstr "Beschikbare kanalen"
 
-#: data/org.gnome.SoundRecorder.gschema.xml.in:32
+#: data/org.gnome.SoundRecorder.gschema.xml.in:31
 msgid ""
 "Maps available channels. If there is not no mapping set, stereo channel will "
 "be used by default."
@@ -112,117 +112,181 @@ msgstr ""
 "Wijst beschikbare kanalen toe. Indien geen toewijzing is ingesteld wordt "
 "standaard het stereokanaal gebruikt."
 
-#: data/ui/row.ui:159 data/ui/row.ui:442
-msgid "Export"
-msgstr "Exporteren"
+#: data/ui/help-overlay.ui:15
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Algemeen"
 
-#: data/ui/row.ui:184 data/ui/row.ui:438
-msgid "Rename"
-msgstr "Hernoemen"
-
-#: data/ui/row.ui:238
-msgid "Save"
-msgstr "Opslaan"
-
-#: data/ui/row.ui:275
-msgid "Delete"
-msgstr "Verwijderen"
-
-#: data/ui/row.ui:310
-msgid "Seek 10s Backward"
-msgstr "10s terugspoelen"
-
-#: data/ui/row.ui:338
-msgid "Play"
-msgstr "Afspelen"
-
-#: data/ui/row.ui:364
-msgid "Pause"
-msgstr "Pauzeren"
-
-#: data/ui/row.ui:396
-msgid "Seek 10s Forward"
-msgstr "10s doorspoelen"
-
-#: data/ui/window.ui:63
+#: data/ui/help-overlay.ui:20
+msgctxt "shortcut window"
 msgid "Record"
 msgstr "Opnemen"
 
-#: data/ui/window.ui:144
-msgid "Add Recordings"
-msgstr "Voeg opnames toe"
-
-#: data/ui/window.ui:156
-msgid "Use the <b>Record</b> button to make sound recordings"
-msgstr "Gebruik de knop <b>Opnemen</b> om geluidsopnames te maken"
-
-#: data/ui/window.ui:253
-msgid "Resume Recording"
-msgstr "Opname hervatten"
-
-#: data/ui/window.ui:278
-msgid "Pause Recording"
-msgstr "Opname pauzeren"
-
-#: data/ui/window.ui:309
+#: data/ui/help-overlay.ui:27
+msgctxt "shortcut window"
 msgid "Stop Recording"
 msgstr "Opname stoppen"
 
-#: data/ui/window.ui:337
-msgid "Cancel Recording"
-msgstr "Opname annuleren"
+#: data/ui/help-overlay.ui:34
+msgctxt "shortcut window"
+msgid "Play / Pause / Resume"
+msgstr "Afspelen / pauzeren / hervatten"
 
-#: data/ui/window.ui:395
+#: data/ui/help-overlay.ui:42
+msgctxt "shortcut window"
+msgid "Delete"
+msgstr "Verwijderen"
+
+#: data/ui/help-overlay.ui:49
+msgctxt "shortcut window"
+msgid "Open menu"
+msgstr "Menu openen"
+
+#: data/ui/help-overlay.ui:56
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Sneltoetsen"
+
+#: data/ui/help-overlay.ui:63
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Afsluiten"
+
+#: data/ui/help-overlay.ui:71
+msgctxt "shortcut window"
+msgid "Recording"
+msgstr "Opname"
+
+#: data/ui/help-overlay.ui:76
+msgctxt "shortcut window"
+msgid "Seek Backward"
+msgstr "Terugspoelen"
+
+#: data/ui/help-overlay.ui:83
+msgctxt "shortcut window"
+msgid "Seek Forward"
+msgstr "Doorspoelen"
+
+#: data/ui/help-overlay.ui:90
+msgctxt "shortcut window"
+msgid "Rename"
+msgstr "Hernoemen"
+
+#: data/ui/help-overlay.ui:97
+msgctxt "shortcut window"
+msgid "Export"
+msgstr "Exporteren"
+
+#: data/ui/recorder.ui:72
+msgid "Resume Recording"
+msgstr "Opname hervatten"
+
+#: data/ui/recorder.ui:96
+msgid "Pause Recording"
+msgstr "Opname pauzeren"
+
+#: data/ui/recorder.ui:128
+msgid "Stop Recording"
+msgstr "Opname stoppen"
+
+#: data/ui/recorder.ui:157
+msgid "Delete Recording"
+msgstr "Opname verwijderen"
+
+#: data/ui/row.ui:165 data/ui/row.ui:444
+msgid "Export"
+msgstr "Exporteren"
+
+#: data/ui/row.ui:189 data/ui/row.ui:440
+msgid "Rename"
+msgstr "Hernoemen"
+
+#: data/ui/row.ui:241
+msgid "Save"
+msgstr "Opslaan"
+
+#: data/ui/row.ui:278 src/recorderWidget.js:100
+msgid "Delete"
+msgstr "Verwijderen"
+
+#: data/ui/row.ui:313
+msgid "Seek 10s Backward"
+msgstr "10s terugspoelen"
+
+#: data/ui/row.ui:341
+msgid "Play"
+msgstr "Afspelen"
+
+#: data/ui/row.ui:367
+msgid "Pause"
+msgstr "Pauzeren"
+
+#: data/ui/row.ui:399
+msgid "Seek 10s Forward"
+msgstr "10s doorspoelen"
+
+#: data/ui/window.ui:60
+msgid "Record"
+msgstr "Opnemen"
+
+#: data/ui/window.ui:149
+msgid "Add Recordings"
+msgstr "Voeg opnames toe"
+
+#: data/ui/window.ui:166
+msgid "Use the <b>Record</b> button to make sound recordings"
+msgstr "Gebruik de knop <b>Opnemen</b> om geluidsopnames te maken"
+
+#: data/ui/window.ui:237
 msgid "Undo"
 msgstr "Ongedaan maken"
 
-#: data/ui/window.ui:405
+#: data/ui/window.ui:254
 msgid "Close"
 msgstr "Sluiten"
 
-#: data/ui/window.ui:430
+#: data/ui/window.ui:290
 msgid "Preferred Format"
 msgstr "Voorkeursformaat"
 
-#: data/ui/window.ui:432
-#| msgid "Ogg Vorbis"
+#: data/ui/window.ui:292
 msgid "Vorbis"
 msgstr "Vorbis"
 
-#: data/ui/window.ui:437
+#: data/ui/window.ui:297
 msgid "Opus"
 msgstr "Opus"
 
-#: data/ui/window.ui:442
+#: data/ui/window.ui:302
 msgid "FLAC"
 msgstr "FLAC"
 
-#: data/ui/window.ui:447
+#: data/ui/window.ui:307
 msgid "MP3"
 msgstr "MP3"
 
-#: data/ui/window.ui:452
-msgid "M4A"
-msgstr "M4A"
-
-#: data/ui/window.ui:458
+#: data/ui/window.ui:313
 msgid "Audio Channel"
 msgstr "Audiokanaal"
 
-#: data/ui/window.ui:460
+#: data/ui/window.ui:315
 msgid "Stereo"
 msgstr "Stereo"
 
-#: data/ui/window.ui:465
+#: data/ui/window.ui:320
 msgid "Mono"
 msgstr "Mono"
 
-#: data/ui/window.ui:473
+#: data/ui/window.ui:327
+msgid "_Keyboard Shortcuts"
+msgstr "Snel_toetsen"
+
+#: data/ui/window.ui:332
 msgid "About Sound Recorder"
 msgstr "Over Geluidsrecorder"
 
 #. Translators: Replace "translator-credits" with your names, one name per line
-#: src/application.js:167
+#: src/application.js:130
 msgid "translator-credits"
 msgstr ""
 "Erwin Poeze\n"
@@ -232,90 +296,108 @@ msgstr ""
 "\n"
 "Meer info over Gnome-NL http://nl.gnome.org/"
 
-#: src/application.js:169
+#: src/application.js:132
 msgid "A Sound Recording Application for GNOME"
 msgstr "Een programma om geluid mee op te nemen voor Gnome"
 
 #. Translators: ""Recording %d"" is the default name assigned to a file created
 #. by the application (for example, "Recording 1").
-#: src/recorder.js:108
+#: src/recorder.js:113
 #, javascript-format
 msgid "Recording %d"
 msgstr "Opname %d"
 
+#: src/recorderWidget.js:94
+msgid "Delete recording?"
+msgstr "Opname verwijderen?"
+
+#: src/recorderWidget.js:95
+msgid "This recording will not be saved."
+msgstr "Deze opname wordt niet opgeslagen."
+
+#: src/recorderWidget.js:99
+msgid "Resume"
+msgstr "Hervatten"
+
 #. Necessary code to move old recordings into the new location for few releases
 #. FIXME: Remove by 3.40/3.42
-#: src/recordingList.js:41
+#: src/recordingList.js:42
 msgid "Recordings"
 msgstr "Opnames"
 
 #. Translators: ""%s (Old)"" is the new name assigned to a file moved from
 #. the old recordings location
-#: src/recordingList.js:57
+#: src/recordingList.js:59
 #, javascript-format
 msgid "%s (Old)"
 msgstr "%s (oud)"
 
-#: src/row.js:67
+#: src/row.js:71
 msgid "Export Recording"
 msgstr "Opname exporteren"
 
-#: src/row.js:67
+#: src/row.js:71
 msgid "_Export"
 msgstr "_Exporteren"
 
-#: src/row.js:67
+#: src/row.js:71
 msgid "_Cancel"
 msgstr "_Annuleren"
 
-#: src/utils.js:45
+#: src/utils.js:48
 msgid "Yesterday"
 msgstr "Gisteren"
 
-#: src/utils.js:47
+#: src/utils.js:50
 #, javascript-format
 msgid "%d day ago"
 msgid_plural "%d days ago"
 msgstr[0] "%d dag geleden"
 msgstr[1] "%d dagen geleden"
 
-#: src/utils.js:49
+#: src/utils.js:52
 msgid "Last week"
 msgstr "Vorige week"
 
-#: src/utils.js:51
+#: src/utils.js:54
 #, javascript-format
 msgid "%d week ago"
 msgid_plural "%d weeks ago"
 msgstr[0] "%d week geleden"
 msgstr[1] "%d weken geleden"
 
-#: src/utils.js:53
+#: src/utils.js:56
 msgid "Last month"
 msgstr "Vorige maand"
 
-#: src/utils.js:55
+#: src/utils.js:58
 #, javascript-format
 msgid "%d month ago"
 msgid_plural "%d months ago"
 msgstr[0] "%d maand geleden"
 msgstr[1] "%d maanden geleden"
 
-#: src/utils.js:57
+#: src/utils.js:60
 msgid "Last year"
 msgstr "Vorig jaar"
 
-#: src/utils.js:59
+#: src/utils.js:62
 #, javascript-format
 msgid "%d year ago"
 msgid_plural "%d years ago"
 msgstr[0] "%d jaar geleden"
 msgstr[1] "%d jaar geleden"
 
-#: src/window.js:85
+#: src/window.js:71
 #, javascript-format
 msgid "\"%s\" deleted"
 msgstr "‘%s’ verwijderd"
+
+#~ msgid "Cancel Recording"
+#~ msgstr "Opname annuleren"
+
+#~ msgid "M4A"
+#~ msgstr "M4A"
 
 #~ msgid "Microphone volume level"
 #~ msgstr "Geluidsniveau microfoon"
@@ -435,9 +517,6 @@ msgstr "‘%s’ verwijderd"
 
 #~ msgid "About"
 #~ msgstr "Info"
-
-#~ msgid "Quit"
-#~ msgstr "Afsluiten"
 
 #~ msgid "%Y-%m-%d %H:%M:%S"
 #~ msgstr "%d-%m-%Y %H:%M:%S"
