@@ -24,11 +24,11 @@ msgstr ""
 #: data/org.gnome.SoundRecorder.desktop.in.in:4 data/ui/window.ui:28
 #: src/application.js:32
 msgid "Sound Recorder"
-msgstr "Enregistradora de so"
+msgstr "Enregistrador de so"
 
 #: data/appdata/org.gnome.SoundRecorder.metainfo.xml.in.in:6
 msgid "A simple, modern sound recorder for GNOME"
-msgstr "Una enregistradora de so simple i moderna pel GNOME"
+msgstr "Un enregistrador de so simple i modern pel GNOME"
 
 #: data/appdata/org.gnome.SoundRecorder.metainfo.xml.in.in:10
 msgid ""
@@ -36,16 +36,16 @@ msgid ""
 "straight-forward way to record and play audio. It allows you to do basic "
 "editing, and create voice memos."
 msgstr ""
-"L'Enregistradora de so proporciona una interfície simple i moderna que "
-"permet enregistrar i reproduir àudios. Us permet fer edicions bàsiques a més"
-" a més de crear notes de veu."
+"L'Enregistrador de so proporciona una interfície simple i moderna que "
+"permet enregistrar i reproduir àudios. Us permet fer edicions bàsiques i"
+" crear notes de veu."
 
 #: data/appdata/org.gnome.SoundRecorder.metainfo.xml.in.in:15
 msgid ""
 "Sound Recorder automatically handles the saving process so that you do not "
 "need to worry about accidentally discarding the previous recording."
 msgstr ""
-"L'Enregistradora de so gestiona automàticament el procés de desat de manera "
+"L'Enregistrador de so gestiona automàticament el procés de desament de manera "
 "que no us heu de preocupar si heu suprimit accidentalment algun "
 "enregistrament."
 
@@ -289,7 +289,7 @@ msgstr "_Dreceres de teclat"
 
 #: data/ui/window.ui:337
 msgid "About Sound Recorder"
-msgstr "Quant a l'Enregistradora de so"
+msgstr "Quant a l'Enregistrador de so"
 
 #. Translators: Replace "translator-credits" with your names, one name per
 #. line
