@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-sound-recorder master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-sound-recorder/"
 "issues\n"
-"POT-Creation-Date: 2021-02-14 20:23+0000\n"
-"PO-Revision-Date: 2021-05-13 19:43+0200\n"
+"POT-Creation-Date: 2021-05-13 17:45+0000\n"
+"PO-Revision-Date: 2021-07-04 19:10+0200\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: Tot En Òc\n"
 "Language: oc\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.4.3\n"
+"X-Generator: Poedit 3.0\n"
 "X-Project-Style: gnome\n"
 
 #: data/appdata/org.gnome.SoundRecorder.metainfo.xml.in.in:5
@@ -69,7 +69,7 @@ msgstr "Enregistrar lo son amb un microfòn e lo restituir"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.SoundRecorder.desktop.in.in:10
 msgid "Audio;Application;Record;"
-msgstr "àudio;aplicacion;enregistrar;son;"
+msgstr "Audio;àudio;aplicacion;enregistrar;son;dictafon;enregistrador;"
 
 #: data/org.gnome.SoundRecorder.gschema.xml.in:15
 msgid "Window size"
@@ -111,6 +111,8 @@ msgid ""
 "Maps available channels. If there is not no mapping set, stereo channel will "
 "be used by default."
 msgstr ""
+"Junta amb los canals disponibles. Se cap de correspondéncia es pas definida, "
+"lo canal esterèo serà utilizat per defaut."
 
 #: data/ui/help-overlay.ui:15
 msgctxt "shortcut window"
