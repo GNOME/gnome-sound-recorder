@@ -48,6 +48,7 @@ i18n = import('i18n')
 po_dir = meson.source_root() / 'po'
 
 subdir('data')
+subdir('help')
 subdir('src')
 subdir('po')
 

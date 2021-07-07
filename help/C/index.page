@@ -1,0 +1,34 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide"
+      id="index">
+
+  <info>
+    <title type="link" role="trail">Sound Recorder</title>
+    <title type="link">Sound Recorder</title>
+    <title type="text">Sound Recorder</title>
+    <revision pkgversion="40" date="2021-07-07" status="candidate"/>
+
+    <credit type="author copyright">
+      <name>Felipe Borges</name>
+      <email its:translate="no">felipeborges@gnome.org</email>
+      <years>2021</years>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Learn how to use Sound Recorder.</desc> 
+  </info>
+
+  <title>
+    <media type="image" its:translate="no" width="48px" height="48px"
+      src="figures/org.gnome.SoundRecorder.svg" /> Sound Recorder
+  </title>
+
+  <p><app>Sound Recorder</app> is a simple sound recording app for the GNOME desktop environment.</p> 
+
+  <section id="start" style="2column">
+    <title>Getting started</title>
+  </section>
+
+</page>
