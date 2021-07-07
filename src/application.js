@@ -56,6 +56,10 @@ var Application = GObject.registerClass(class Application extends Gtk.Applicatio
         const channelAction = Settings.create_action('audio-channel');
         this.add_action(channelAction);
 
+        let helpAction = new Gio.SimpleAction({ name: 'help' });
+        helpAction.connect('activate', this._showHelp.bind(this));
+        this.add_action(helpAction);
+
         let aboutAction = new Gio.SimpleAction({ name: 'about' });
         aboutAction.connect('activate', this._showAbout.bind(this));
         this.add_action(aboutAction);
@@ -144,5 +148,15 @@ var Application = GObject.registerClass(class Application extends Gtk.Applicatio
         aboutDialog.connect('response', () => {
             aboutDialog.close();
         });
+    }
+
+    _showHelp() {
+        try {
+            Gtk.show_uri_on_window(this.window,
+                                   "help:gnome-sound-recorder",
+                                   Gtk.get_current_event_time());
+        } catch (e) {
+            error(`Failed to display help: ${e}`);
+        }
     }
 });
